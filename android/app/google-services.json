@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "870777639417",
+    "project_id": "emergency-ai-app",
+    "storage_bucket": "emergency-ai-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870777639417:android:439998fb4e5fb44e2d6d28",
+        "android_client_info": {
+          "package_name": "com.example.emergency_ai_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2wp5qugs4842WW6kKNbLj-FGg9p0q6Cg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
