@@ -32,8 +32,6 @@ import 'screens/flow/call_script_screen.dart';
 import 'screens/flow/report_status_screen.dart';
 import 'screens/flow/live_tracking_screen.dart';
 import 'screens/flow/report_detail_screen.dart';
-import 'screens/flow/fake_detection_upload_screen.dart';
-import 'screens/flow/fake_detection_result_screen.dart';
 
 // Emergency-only flow screens
 import 'screens/flow/guest_manual_report_screen.dart';
@@ -122,8 +120,7 @@ class AppRoutes {
 
     // Shared / current flow
     reportRole: (_) => const ReportRoleScreen(),
-    fakeDetectionUpload: (_) => const FakeDetectionUploadScreen(),
-    fakeDetectionResult: (_) => const FakeDetectionResultScreen(),
+
     upload: (_) => const UploadScreen(),
     analysisResult: (_) => const AnalysisResultScreen(),
     victimDetails: (_) => const VictimDetailsScreen(),
