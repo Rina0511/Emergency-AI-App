@@ -1158,4 +1158,855 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noReportsYet => 'No reports yet';
+
+  @override
+  String greeting(String name) {
+    return 'Hi, $name';
+  }
+
+  @override
+  String get sos => 'SOS';
+
+  @override
+  String get startEmergencyReport => 'Tap to start an emergency report';
+
+  @override
+  String get manualReport => 'Report Emergency Manually';
+
+  @override
+  String get manualReportDescription => 'Create an emergency report without AI analysis when needed.';
+
+  @override
+  String get manualEmergencyReport => 'Manual Emergency Report';
+
+  @override
+  String get incidentPhoto => 'Incident Photo';
+
+  @override
+  String get noImageSelected => 'No Image Selected';
+
+  @override
+  String get chooseImageFromGallery => 'Take a photo or choose one from your gallery.';
+
+  @override
+  String get camera => 'Camera';
+
+  @override
+  String get validating => 'Validating...';
+
+  @override
+  String get emergencyImageValidation => 'Emergency Image Validation';
+
+  @override
+  String get warnings => 'Warnings';
+
+  @override
+  String get emergencyDetails => 'Emergency Details';
+
+  @override
+  String get emergencyType => 'Emergency Type';
+
+  @override
+  String get peopleInvolved => 'People Involved';
+
+  @override
+  String get victimCondition => 'Victim Condition';
+
+  @override
+  String get dangerPresent => 'Danger Present';
+
+  @override
+  String get emergencyDescription => 'Emergency Description';
+
+  @override
+  String get emergencyDescriptionHint => 'Briefly describe what happened...';
+
+  @override
+  String get includeLiveLocation => 'Include Live Location';
+
+  @override
+  String get continueManualGuidance => 'Continue to Manual Guidance';
+
+  @override
+  String get flood => 'Flood';
+
+  @override
+  String get buildingCollapse => 'Building Collapse';
+
+  @override
+  String get chemicalSpill => 'Chemical Spill';
+
+  @override
+  String get animalRescue => 'Animal Rescue';
+
+  @override
+  String get other => 'Other';
+
+  @override
+  String get conscious => 'Conscious';
+
+  @override
+  String get unconscious => 'Unconscious';
+
+  @override
+  String get bleeding => 'Bleeding';
+
+  @override
+  String get trapped => 'Trapped';
+
+  @override
+  String get unknown => 'Unknown';
+
+  @override
+  String get smoke => 'Smoke';
+
+  @override
+  String get fuelLeak => 'Fuel Leak';
+
+  @override
+  String get traffic => 'Traffic';
+
+  @override
+  String get none => 'None';
+
+  @override
+  String get imageQualityScore => 'Image Quality Score';
+
+  @override
+  String get incidentSummary => 'Incident Summary';
+
+  @override
+  String get included => 'Included';
+
+  @override
+  String get notIncluded => 'Not Included';
+
+  @override
+  String get validationStatus => 'Validation Status';
+
+  @override
+  String get validationScore => 'Validation Score';
+
+  @override
+  String get validationResult => 'Validation Result';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get noAdditionalDescription => 'No additional description.';
+
+  @override
+  String get recommendedActions => 'Recommended Actions';
+
+  @override
+  String get viewReportStatus => 'View Report Status';
+
+  @override
+  String get someoneNeedsHelp => 'Someone Needs Help';
+
+  @override
+  String get otherEmergency => 'Other Emergency';
+
+  @override
+  String get continueToAiAnalysis => 'Continue to AI Analysis';
+
+  @override
+  String get validateAndAnalyze => 'Validate & Analyze';
+
+  @override
+  String get bystanderAssist => 'Bystander Assist';
+
+  @override
+  String get offlineEmergencyAssistance => 'Offline Emergency Assistance';
+
+  @override
+  String get offlineMode => 'Offline Mode';
+
+  @override
+  String get offlineModeDescription => 'Emergency guidance is available without internet connection.';
+
+  @override
+  String get incidentTimer => 'Incident Timer';
+
+  @override
+  String get pause => 'Pause';
+
+  @override
+  String get start => 'Start';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get cprBeat => 'CPR Beat';
+
+  @override
+  String get stop => 'Stop';
+
+  @override
+  String get sosFlashlight => 'SOS Flashlight';
+
+  @override
+  String get sosFlashlightDescription => 'Use your phone flashlight as an emergency signal.';
+
+  @override
+  String get takeChargeScene => 'Take Charge of the Scene';
+
+  @override
+  String get viewEmergencyHistory => 'View Emergency History';
+
+  @override
+  String get flashlightUnavailable => 'Flashlight is unavailable. Close the camera and try again.';
+
+  @override
+  String get stayCalmDescription => 'Remain calm and assess the emergency before taking action.';
+
+  @override
+  String get stayCalmTitle => 'Stay Calm';
+
+  @override
+  String get ensureSceneSafety => 'Ensure Scene Safety';
+
+  @override
+  String get ensureSceneSafetyDescription => 'Check for fire, smoke, traffic, electricity, chemicals or other hazards.';
+
+  @override
+  String get protectYourself => 'Protect Yourself';
+
+  @override
+  String get protectYourselfDescription => 'Never become another victim. Enter only if it is safe.';
+
+  @override
+  String get seekEmergencyHelp => 'Seek Emergency Help';
+
+  @override
+  String get seekEmergencyHelpDescription => 'Get emergency assistance immediately if the situation is life-threatening.';
+
+  @override
+  String get giveFirstAid => 'Give First Aid';
+
+  @override
+  String get giveFirstAidDescription => 'Provide first aid only if you know how and it is safe.';
+
+  @override
+  String get waitForResponders => 'Wait for Responders';
+
+  @override
+  String get waitForRespondersDescription => 'Continue monitoring the affected person until professional help arrives.';
+
+  @override
+  String get emergencyFirstAidGuides => 'Emergency First Aid Guides';
+
+  @override
+  String get cprNotBreathing => 'CPR — Not Breathing';
+
+  @override
+  String get severeBleeding => 'Severe Bleeding';
+
+  @override
+  String get choking => 'Choking';
+
+  @override
+  String get burns => 'Burns';
+
+  @override
+  String get fractureSpineInjury => 'Fracture / Spine Injury';
+
+  @override
+  String get shockUnconsciousBreathing => 'Shock / Unconscious but Breathing';
+
+  @override
+  String get poisoning => 'Poisoning';
+
+  @override
+  String get electricShock => 'Electric Shock';
+
+  @override
+  String get heatStroke => 'Heat Stroke';
+
+  @override
+  String get drowning => 'Drowning';
+
+  @override
+  String get animalBite => 'Animal Bite';
+
+  @override
+  String get cprStep1 => 'Check for a response — tap the shoulders and call out loudly.';
+
+  @override
+  String get cprStep2 => 'Ask someone to get emergency help and an AED.';
+
+  @override
+  String get cprStep3 => 'Place the heel of one hand in the centre of the chest, with the other hand on top.';
+
+  @override
+  String get cprStep4 => 'Push hard and fast, 5–6 cm deep, at 100–120 compressions per minute.';
+
+  @override
+  String get cprStep5 => 'Do not stop until the person moves or professional help arrives.';
+
+  @override
+  String get cprWarning => 'Perform CPR only if the person is unresponsive and not breathing normally.';
+
+  @override
+  String get bleedingStep1 => 'Apply firm direct pressure to the wound immediately using a clean cloth, sterile dressing, or your hand if nothing else is available.';
+
+  @override
+  String get bleedingStep2 => 'Keep continuous pressure on the wound. Do not repeatedly remove the dressing to check the bleeding.';
+
+  @override
+  String get bleedingStep3 => 'If blood soaks through, place another dressing on top and continue applying pressure.';
+
+  @override
+  String get bleedingStep4 => 'Raise the injured arm or leg above heart level only if no fracture is suspected.';
+
+  @override
+  String get bleedingStep5 => 'Get emergency medical help if bleeding cannot be controlled or is life-threatening.';
+
+  @override
+  String get bleedingWarning => 'Do not remove objects deeply embedded in a wound. Apply pressure around the object and wait for professional help.';
+
+  @override
+  String get chokingStep1 => 'Ask the person if they are choking. If they can cough or speak, encourage them to keep coughing.';
+
+  @override
+  String get chokingStep2 => 'If they cannot cough, speak, or breathe, give up to 5 firm back blows between the shoulder blades.';
+
+  @override
+  String get chokingStep3 => 'If the object does not come out, give up to 5 abdominal thrusts for adults and children over 1 year old.';
+
+  @override
+  String get chokingStep4 => 'Continue alternating 5 back blows and 5 abdominal thrusts until the blockage is removed or the person becomes unresponsive.';
+
+  @override
+  String get chokingStep5 => 'If the person becomes unresponsive, get emergency help and begin CPR if they are not breathing normally.';
+
+  @override
+  String get chokingWarning => 'Do not use abdominal thrusts on infants. For a pregnant person, use chest thrusts instead. Use age-appropriate first-aid techniques.';
+
+  @override
+  String get burnsStep1 => 'Move the person away from the heat source only if it is safe to do so.';
+
+  @override
+  String get burnsStep2 => 'Cool the burned area under clean, cool running water for 10–20 minutes.';
+
+  @override
+  String get burnsStep3 => 'Remove rings, watches, and loose clothing before swelling begins, but do not remove anything stuck to the burn.';
+
+  @override
+  String get burnsStep4 => 'Loosely cover the burn with a sterile non-stick dressing or clean plastic wrap.';
+
+  @override
+  String get burnsStep5 => 'Get urgent medical care for deep, chemical, electrical, large, or facial burns.';
+
+  @override
+  String get burnsWarning => 'Do not apply toothpaste, butter, oils, creams, or ice directly onto a burn.';
+
+  @override
+  String get fractureStep1 => 'Tell the person to remain still and avoid moving the injured body part.';
+
+  @override
+  String get fractureStep2 => 'Support the injured limb with towels, clothing, or a splint only if you are trained and it is safe.';
+
+  @override
+  String get fractureStep3 => 'Apply a wrapped cold pack to reduce swelling. Never place ice directly on the skin.';
+
+  @override
+  String get fractureStep4 => 'If a spine injury is suspected, keep the head, neck, and back aligned. Do not move the person unless there is immediate danger.';
+
+  @override
+  String get fractureStep5 => 'Get emergency medical help for severe pain, deformity, heavy bleeding, or a suspected spine injury.';
+
+  @override
+  String get fractureWarning => 'Do not attempt to straighten broken bones or move a person with a suspected spinal injury.';
+
+  @override
+  String get shockStep1 => 'Lay the person flat on their back unless an injury or breathing difficulty prevents it.';
+
+  @override
+  String get shockStep2 => 'If no injury is suspected, raise the feet about 15–30 cm unless a different position is more comfortable for breathing.';
+
+  @override
+  String get shockStep3 => 'Loosen tight clothing and keep the person warm with a blanket or jacket.';
+
+  @override
+  String get shockStep4 => 'If the person is unresponsive but breathing normally, place them in the recovery position if it is safe to do so.';
+
+  @override
+  String get shockStep5 => 'Monitor breathing and responsiveness continuously until professional help arrives.';
+
+  @override
+  String get shockWarning => 'Do not give food, drinks, or medication to an unconscious person.';
+
+  @override
+  String get poisoningStep1 => 'Move the person away from the poisonous substance only if it is safe.';
+
+  @override
+  String get poisoningStep2 => 'Identify the poison if possible and keep the container or label for medical personnel.';
+
+  @override
+  String get poisoningStep3 => 'If poison is on the skin or in the eyes, rinse continuously with clean running water.';
+
+  @override
+  String get poisoningStep4 => 'Get emergency help if the person is unconscious, has difficulty breathing, has seizures, or if several people are affected.';
+
+  @override
+  String get poisoningStep5 => 'Follow instructions from medical professionals while waiting for help.';
+
+  @override
+  String get poisoningWarning => 'Do not force the person to vomit or give food or drink unless a medical professional instructs you to do so.';
+
+  @override
+  String get electricStep1 => 'Switch off the electricity source before approaching the person, if it is safe to do so.';
+
+  @override
+  String get electricStep2 => 'Do not touch the person, exposed wires, or wet areas until you are certain the power is off.';
+
+  @override
+  String get electricStep3 => 'Get emergency medical help, even if the person appears well, because electrical injuries can cause hidden internal damage.';
+
+  @override
+  String get electricStep4 => 'Once it is safe, check breathing and begin CPR only if the person is not breathing normally and you are trained to do so.';
+
+  @override
+  String get electricStep5 => 'After the power is off, loosely cover visible burns with a sterile dressing while waiting for help.';
+
+  @override
+  String get electricWarning => 'Never touch a person who is still in contact with electricity.';
+
+  @override
+  String get heatStep1 => 'Move the person to a cool or shaded area immediately.';
+
+  @override
+  String get heatStep2 => 'Remove excess clothing to help the body cool down.';
+
+  @override
+  String get heatStep3 => 'Cool the body using wet cloths, misting, fanning, or a cool bath.';
+
+  @override
+  String get heatStep4 => 'Get emergency medical help immediately, especially if the person is confused, collapses, or loses consciousness.';
+
+  @override
+  String get heatStep5 => 'Monitor breathing and responsiveness while continuing to cool the person.';
+
+  @override
+  String get heatWarning => 'Heat stroke is a medical emergency. Do not give the person anything to drink.';
+
+  @override
+  String get drowningStep1 => 'Help the person out of the water only if it is safe. Use a reaching or floating object when possible.';
+
+  @override
+  String get drowningStep2 => 'Get emergency help as soon as the person is safely out of the water.';
+
+  @override
+  String get drowningStep3 => 'Check breathing. If the person is not breathing normally, begin CPR if you are trained to do so.';
+
+  @override
+  String get drowningStep4 => 'Use an AED if one is available and it is safe to use.';
+
+  @override
+  String get drowningStep5 => 'Keep the person warm and continue monitoring breathing and responsiveness until professional help arrives.';
+
+  @override
+  String get drowningWarning => 'Do not try to remove water from the lungs. Focus on breathing, CPR when needed, and getting emergency help.';
+
+  @override
+  String get animalBiteStep1 => 'Wash a minor bite wound thoroughly with soap and clean running water.';
+
+  @override
+  String get animalBiteStep2 => 'Control bleeding by applying gentle direct pressure with a clean dressing.';
+
+  @override
+  String get animalBiteStep3 => 'Cover the wound with a clean sterile bandage.';
+
+  @override
+  String get animalBiteStep4 => 'Get medical attention for deep wounds, bites from stray or wild animals, or possible rabies exposure.';
+
+  @override
+  String get animalBiteStep5 => 'Monitor the wound for infection, such as increasing redness, swelling, pus, fever, or red streaks.';
+
+  @override
+  String get animalBiteWarning => 'Animal bites can cause serious infection. Seek medical assessment when in doubt.';
+
+  @override
+  String get validationModelLoading => 'AI model is still loading. Please wait.';
+
+  @override
+  String get validationUploadImageFirst => 'Please upload an image first.';
+
+  @override
+  String get validationImageRejectedTitle => 'Image Rejected';
+
+  @override
+  String get validationAiGeneratedRejected => 'Rejected: AI-generated image detected.';
+
+  @override
+  String get modelClassification => 'Model classification';
+
+  @override
+  String get classificationAi => 'AI';
+
+  @override
+  String get aiConfidence => 'AI confidence';
+
+  @override
+  String get validationNonEmergencyRejected => 'Rejected: This image does not appear to show an emergency incident.';
+
+  @override
+  String get classificationNonEmergency => 'Non-Emergency';
+
+  @override
+  String get validationAcceptedWarningTitle => 'Accepted With Warning';
+
+  @override
+  String get validationImageAcceptedTitle => 'Image Accepted';
+
+  @override
+  String get validationAcceptedWarningMessage => 'Accepted: Likely a real emergency image, but image quality may reduce visible detail.';
+
+  @override
+  String get validationImageAcceptedMessage => 'Accepted: Likely a real emergency image detected.';
+
+  @override
+  String get classificationRealEmergency => 'Real Emergency';
+
+  @override
+  String get classificationConfidence => 'Classification confidence';
+
+  @override
+  String get validationUnavailableTitle => 'Validation Unavailable';
+
+  @override
+  String get validationUnavailableMessage => 'Unable to validate this image. Please try again.';
+
+  @override
+  String get uploadEmergencyImageFirst => 'Please upload an emergency image.';
+
+  @override
+  String get validateImageFirst => 'Please validate the image first.';
+
+  @override
+  String get imageRejected => 'Image rejected';
+
+  @override
+  String get fireGuidanceMoveAway => 'Move everyone away from the fire immediately.';
+
+  @override
+  String get fireGuidanceStayLow => 'If smoke is present, stay low to avoid inhalation.';
+
+  @override
+  String get fireGuidanceNoElevators => 'Do not use elevators during evacuation.';
+
+  @override
+  String get fireGuidanceTurnOffUtilities => 'Turn off electricity or gas only if it is safe to do so.';
+
+  @override
+  String get fireGuidanceGetHelp => 'Get emergency help immediately.';
+
+  @override
+  String get fireGuidanceWaitSafe => 'Wait for firefighters in a safe location.';
+
+  @override
+  String get fireGuidancePersonTrapped => 'Inform emergency responders that a person is trapped inside.';
+
+  @override
+  String get fireGuidanceFuelLeak => 'Keep everyone away from possible ignition sources.';
+
+  @override
+  String get profileTitle => 'Emergency Profile';
+
+  @override
+  String get profileSaved => 'Emergency profile saved';
+
+  @override
+  String get profileMedicalInfoTitle => 'Medical information saved in your profile';
+
+  @override
+  String get profileMedicalInfoMessage => 'Available when you submit an emergency report.';
+
+  @override
+  String get profilePersonal => 'Personal';
+
+  @override
+  String get profileFullName => 'Full Name';
+
+  @override
+  String get profileAge => 'Age';
+
+  @override
+  String get profileBloodGroup => 'Blood Group';
+
+  @override
+  String get profileUnknown => 'Unknown';
+
+  @override
+  String get profileAllergies => 'Allergies';
+
+  @override
+  String get profileAllergiesHint => 'Example: Penicillin, Peanuts';
+
+  @override
+  String get profileMedicalConditions => 'Medical Conditions';
+
+  @override
+  String get profileMedicalConditionsHint => 'Example: Asthma, Diabetes';
+
+  @override
+  String get profileCurrentMedication => 'Current Medication';
+
+  @override
+  String get profileMedicationHint => 'Example: Ventolin inhaler';
+
+  @override
+  String get profileNextOfKin => 'Next of Kin';
+
+  @override
+  String get profileKinNameHint => 'Name (Relationship)';
+
+  @override
+  String get profilePhoneNumber => 'Phone Number';
+
+  @override
+  String get profileSaveButton => 'Save Emergency Profile';
+
+  @override
+  String get emergencyNowTitle => 'Emergency Now';
+
+  @override
+  String get emergencyNowSubtitle => 'Start a manual report and receive immediate safety guidance.';
+
+  @override
+  String get startManualReport => 'Start Manual Emergency Report';
+
+  @override
+  String get emergencyNowNotice => 'This app provides reporting support and guidance. It does not contact or dispatch emergency services.';
+
+  @override
+  String get guestFinishGuidance => 'Finish and Return';
+
+  @override
+  String get guestFinishGuidanceMessage => 'You can start another report whenever needed.';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navDetect => 'Detect';
+
+  @override
+  String get navTracking => 'Tracking';
+
+  @override
+  String get navProfile => 'Profile';
+
+  @override
+  String get navAssist => 'Assist';
+
+  @override
+  String get emergencyAnalysisResult => 'Emergency Analysis Result';
+
+  @override
+  String get emergencyTracking => 'Emergency Tracking';
+
+  @override
+  String get trackingSosSent => 'SOS Sent';
+
+  @override
+  String get trackingPendingConfirmation => 'Pending confirmation';
+
+  @override
+  String get trackingEmergencyId => 'Emergency ID';
+
+  @override
+  String get trackingEmergencyType => 'Emergency Type';
+
+  @override
+  String get trackingSeverity => 'Severity';
+
+  @override
+  String get trackingAiConfidence => 'AI Confidence';
+
+  @override
+  String get trackingRecommendedResponders => 'Recommended Responders';
+
+  @override
+  String get trackingRealGpsLocation => 'Real GPS Location';
+
+  @override
+  String get trackingMalaysia999Flow => 'Malaysia 999 Emergency Flow';
+
+  @override
+  String get trackingConfirmed => 'Confirmed';
+
+  @override
+  String get trackingDispatched => 'Dispatched';
+
+  @override
+  String get trackingArriving => 'Arriving';
+
+  @override
+  String get trackingCompleted => 'Completed';
+
+  @override
+  String get trackingCall999 => 'Call 999';
+
+  @override
+  String get trackingAssistanceArrived => 'Assistance Arrived';
+
+  @override
+  String get trackingCancelFalseAlarm => 'Cancel False Alarm';
+
+  @override
+  String get trackingShareLiveLocation => 'Share Live Location';
+
+  @override
+  String get trackingSending => 'Sending...';
+
+  @override
+  String get trackingSendUpdateToContacts => 'Send Update to Emergency Contacts';
+
+  @override
+  String get trackingBackToHome => 'Back to Home';
+
+  @override
+  String get trackingNoActiveEmergency => 'No active emergency';
+
+  @override
+  String get trackingNoActiveEmergencyMessage => 'Emergency tracking will appear after an emergency report is created.';
+
+  @override
+  String get trackingLocationPermissionDenied => 'Location permission denied';
+
+  @override
+  String get trackingLocationUnavailable => 'Location unavailable';
+
+  @override
+  String get trackingUnableOpenDialer => 'Unable to open phone dialer.';
+
+  @override
+  String get trackingUnableOpenMaps => 'Unable to open Google Maps.';
+
+  @override
+  String get trackingLoginFirst => 'Please login first.';
+
+  @override
+  String get trackingNoContacts => 'No emergency contacts found.';
+
+  @override
+  String trackingAlertSent(Object count) {
+    return 'Emergency alert sent to $count contact(s).';
+  }
+
+  @override
+  String get trackingInvalidContact => 'Contact does not have a valid App User ID.';
+
+  @override
+  String trackingUpdateFailed(Object error) {
+    return 'Failed to send update: $error';
+  }
+
+  @override
+  String trackingEmergencyUpdateFailed(Object error) {
+    return 'Failed to update emergency: $error';
+  }
+
+  @override
+  String get trackingPending => 'Pending';
+
+  @override
+  String get trackingDetailsConfirmed => '999 Details Confirmed';
+
+  @override
+  String get trackingResponderDispatched => 'Responder Dispatched';
+
+  @override
+  String get trackingResponderArriving => 'Responder Arriving';
+
+  @override
+  String get trackingAssistanceArrivedStatus => 'Assistance Arrived';
+
+  @override
+  String get trackingFalseAlarmCancelled => 'False Alarm Cancelled';
+
+  @override
+  String get trackingActive => 'Tracking Active';
+
+  @override
+  String get trackingNoLocationShared => 'Location not shared';
+
+  @override
+  String get trackingEmergency => 'Emergency';
+
+  @override
+  String get trackingHigh => 'High';
+
+  @override
+  String get trackingUnknown => 'Unknown';
+
+  @override
+  String get analysisLoading => 'Analyzing image with Gemini AI...';
+
+  @override
+  String get analysisEvidenceDetected => 'AI Evidence Detected';
+
+  @override
+  String get analysisRecommendedResponders => 'Recommended Responders';
+
+  @override
+  String get analysisSuggestedEquipment => 'Suggested Equipment';
+
+  @override
+  String get analysisSaving => 'Saving...';
+
+  @override
+  String get analysisConfirmGetHelp => 'Confirm & Get Help';
+
+  @override
+  String get analysisNoEmergencyIdentified => 'No Emergency Identified';
+
+  @override
+  String get analysisReanalyze => 'Re-analyze';
+
+  @override
+  String get analysisFalseAlarm => 'False Alarm';
+
+  @override
+  String get analysisEmergencyDetected => 'Emergency Detected';
+
+  @override
+  String get analysisType => 'Type';
+
+  @override
+  String get analysisSeverity => 'Severity';
+
+  @override
+  String get analysisConfidenceLevel => 'Confidence Level';
+
+  @override
+  String get analysisIncidentSummary => 'AI Incident Summary';
+
+  @override
+  String get analysisNoSpecificDetails => 'No specific details detected';
+
+  @override
+  String get analysisNoSummary => 'No summary generated.';
+
+  @override
+  String get analysisFailed => 'AI analysis failed';
+
+  @override
+  String get analysisTryAgain => 'Try Again';
+
+  @override
+  String get cprBeatCount => 'Beat Count';
+
+  @override
+  String get manualTrackingStarting => 'Starting...';
+
+  @override
+  String get manualTrackingInternetRequired => 'Internet connection is required to submit the report and view Emergency Tracking. Emergency guidance remains available offline.';
+
+  @override
+  String get manualTrackingUnableToStart => 'Unable to start Emergency Tracking. Check your internet connection and try again.';
 }

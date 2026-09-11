@@ -43,83 +43,31 @@ class EmergencyDecisionEngine {
   //------------------------------------------------------------
 
   static EmergencyDecisionResult evaluate(ImageValidationResult validation) {
-    //----------------------------------------------------------
-    // START SCORE
-    //----------------------------------------------------------
-
-    int score = validation.validationScore;
-
+    final score = validation.validationScore;
     final warnings = <String>[...validation.warnings];
-
-    //----------------------------------------------------------
-    // IMAGE REJECTED BY VALIDATION
-    //----------------------------------------------------------
 
     if (!validation.isValidImage) {
       return EmergencyDecisionResult(
         status: EmergencyDecisionStatus.reject,
         allowAiAnalysis: false,
         title: "Image Rejected",
-        message: validation.reason,
+        message: "Rejected: ${validation.reason}",
         decisionScore: score,
         warnings: warnings,
       );
     }
 
-    //----------------------------------------------------------
-    // EDITED IMAGE
-    //----------------------------------------------------------
-
-    if (validation.editedImage) {
-      score -= 20;
-
-      warnings.add("Edited image detected.");
-    }
-
-    //----------------------------------------------------------
-    // NO METADATA
-    //----------------------------------------------------------
-
-    if (!validation.hasMetadata) {
-      score -= 10;
-
-      warnings.add("No camera metadata found.");
-    }
-
-    //----------------------------------------------------------
-    // LIMIT SCORE
-    //----------------------------------------------------------
-
-    if (score < 0) {
-      score = 0;
-    }
-
-    if (score > 100) {
-      score = 100;
-    }
-
-    //----------------------------------------------------------
-    // CONTINUE PART 3
-    //------------------------------------------------------------
-    //----------------------------------------------------------
-    // ACCEPT
-    //----------------------------------------------------------
-
-    if (score >= 85) {
+    if (score >= 85 && warnings.isEmpty) {
       return EmergencyDecisionResult(
         status: EmergencyDecisionStatus.accept,
         allowAiAnalysis: true,
         title: "Image Accepted",
         message:
-            "The uploaded image passed validation and is suitable for AI emergency analysis.",
+            "Technical image-quality checks passed. Image Quality Score: $score/100.",
         decisionScore: score,
         warnings: warnings,
       );
     }
-
-    //----------------------------------------------------------
-    // ACCEPT WITH WARNING
-    //----------------------------------------------------------
 
     if (score >= 60) {
       return EmergencyDecisionResult(
@@ -127,22 +75,18 @@ class EmergencyDecisionEngine {
         allowAiAnalysis: true,
         title: "Accepted With Warning",
         message:
-            "The image can be analysed, but some quality issues were detected.",
+            "Technical image-quality checks passed with warnings. Image Quality Score: $score/100.",
         decisionScore: score,
         warnings: warnings,
       );
     }
-
-    //----------------------------------------------------------
-    // REJECT
-    //----------------------------------------------------------
 
     return EmergencyDecisionResult(
       status: EmergencyDecisionStatus.reject,
       allowAiAnalysis: false,
       title: "Image Rejected",
       message:
-          "The uploaded image did not meet the minimum validation requirements.",
+          "Rejected: Image quality is too low for reliable emergency assessment. Image Quality Score: $score/100.",
       decisionScore: score,
       warnings: warnings,
     );

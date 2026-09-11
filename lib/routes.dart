@@ -36,6 +36,8 @@ import 'screens/flow/fake_detection_upload_screen.dart';
 import 'screens/flow/fake_detection_result_screen.dart';
 
 // Emergency-only flow screens
+import 'screens/flow/guest_manual_report_screen.dart';
+
 import 'screens/flow/emergency_guidance_screen.dart';
 // Add these later when you create them:
 import 'screens/flow/emergency_upload_screen.dart';
@@ -84,6 +86,7 @@ class AppRoutes {
   static const String reportDetail = '/report-detail';
 
   // Emergency-only routes
+  static const String guestManualReport = '/guest-manual-report';
   static const String emergencyGuidance = '/emergency-guidance';
 
   // Add these later when files are created:
@@ -130,6 +133,7 @@ class AppRoutes {
     reportDetail: (_) => const ReportDetailScreen(),
 
     // Emergency-only
+    guestManualReport: (_) => const GuestManualReportScreen(),
     emergencyGuidance: (_) => const EmergencyGuidanceScreen(),
     emergencyCallScript: (_) => const EmergencyCallScriptScreen(),
     // Add these later when created:

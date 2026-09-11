@@ -1,19 +1,9 @@
-import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
-import '../../l10n/app_localizations.dart';
 import '../../routes.dart';
-import '../common/app_bottom_nav.dart';
+import '../../l10n/app_localizations.dart';
 
-//import 'package:url_launcher/url_launcher.dart';
-
-//import '../flow/sos_preview_screen.dart';
-
-class ManualGuidanceScreen extends StatefulWidget {
+class GuestManualGuidanceScreen extends StatefulWidget {
   final String emergencyType;
   final String victimCondition;
   final String victimCount;
@@ -29,7 +19,7 @@ class ManualGuidanceScreen extends StatefulWidget {
 
   final List<String> validationWarnings;
 
-  const ManualGuidanceScreen({
+  const GuestManualGuidanceScreen({
     super.key,
     required this.emergencyType,
     required this.victimCondition,
@@ -44,10 +34,11 @@ class ManualGuidanceScreen extends StatefulWidget {
     required this.validationWarnings,
   });
   @override
-  State<ManualGuidanceScreen> createState() => _ManualGuidanceScreenState();
+  State<GuestManualGuidanceScreen> createState() =>
+      _GuestManualGuidanceScreenState();
 }
 
-class _ManualGuidanceScreenState extends State<ManualGuidanceScreen> {
+class _GuestManualGuidanceScreenState extends State<GuestManualGuidanceScreen> {
   //----------------------------------------------------------
   // UI COLORS
   //----------------------------------------------------------
@@ -62,8 +53,6 @@ class _ManualGuidanceScreenState extends State<ManualGuidanceScreen> {
 
   late Color _severityColor;
   late AppLocalizations _t;
-  bool _startingTracking = false;
-  String? _pendingReportId;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -129,70 +118,6 @@ class _ManualGuidanceScreenState extends State<ManualGuidanceScreen> {
         _buildGeneralGuidance();
     }
   }
-
-  //----------------------------------------------------------
-  // CALL 999
-  //----------------------------------------------------------
-  /*
-  Future<void> _call999() async {
-    final Uri phone = Uri(scheme: 'tel', path: '999');
-
-    if (await canLaunchUrl(phone)) {
-      await launchUrl(phone);
-    } else {
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Unable to open phone dialer.")),
-      );
-    }
-  }
-
-  //----------------------------------------------------------
-  // SHARE LOCATION
-  //----------------------------------------------------------
-  Future<void> _shareLocation() async {
-    if (!widget.includeLocation) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Location was not included in this report."),
-        ),
-      );
-
-      return;
-    }
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          "Live location sharing will be connected to GPS in the next phase.",
-        ),
-      ),
-    );
-  }
-
-  //----------------------------------------------------------
-  // CONTINUE
-  //----------------------------------------------------------
-
-  void _continue() {
-    Navigator.pushNamed(
-      context,
-      AppRoutes.sosPreview,
-      arguments: {
-        'emergencyType': widget.emergencyType,
-        'condition': widget.victimCondition,
-        'injuredCount': widget.victimCount,
-        'dangerPresent': widget.danger,
-        'notes': widget.description,
-        'severity': _severity,
-        'location': widget.includeLocation
-            ? 'Current GPS location'
-            : 'Location not shared',
-        'role': 'victim',
-      },
-    );
-  }*/
 
   //----------------------------------------------------------
   // RULE METHODS
@@ -544,127 +469,6 @@ class _ManualGuidanceScreenState extends State<ManualGuidanceScreen> {
 
       "Contact emergency services if necessary.",
     ];
-  }
-
-  Future<bool> _hasInternetConnection() async {
-    try {
-      final response = await http
-          .get(Uri.parse('https://clients3.google.com/generate_204'))
-          .timeout(const Duration(seconds: 5));
-
-      return response.statusCode == 204 || response.statusCode == 200;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  Future<void> _continueToTracking() async {
-    if (_startingTracking) return;
-
-    final t = AppLocalizations.of(context)!;
-
-    setState(() {
-      _startingTracking = true;
-    });
-
-    final hasInternet = await _hasInternetConnection();
-
-    if (!mounted) return;
-
-    if (!hasInternet) {
-      setState(() {
-        _startingTracking = false;
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(t.manualTrackingInternetRequired),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-
-      return;
-    }
-
-    final user = FirebaseAuth.instance.currentUser;
-
-    if (user == null) {
-      setState(() {
-        _startingTracking = false;
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(t.trackingLoginFirst),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-
-      return;
-    }
-
-    try {
-      final reports = FirebaseFirestore.instance.collection(
-        'emergency_reports',
-      );
-
-      // Reuses the same ID if the first attempt times out.
-      _pendingReportId ??= reports.doc().id;
-
-      final report = reports.doc(_pendingReportId);
-
-      await report
-          .set({
-            'emergencyId': report.id,
-            'userId': user.uid,
-            'emergencyType': widget.emergencyType,
-            'severity': _severity,
-            'victimCondition': widget.victimCondition,
-            'victimCount': widget.victimCount,
-            'danger': widget.danger,
-            'description': widget.description,
-            'includeLocation': widget.includeLocation,
-            'location': widget.includeLocation
-                ? 'Current GPS location'
-                : 'Location not shared',
-            'reporterRole': 'manual_report',
-            'status': 'active',
-            'trackingStage': 'sent',
-            'validationScore': widget.validationScore,
-            'validationStatus': widget.validationStatus,
-            'validationWarnings': widget.validationWarnings,
-            'confidence': 0,
-            'responders': [],
-            'createdAt': FieldValue.serverTimestamp(),
-            'updatedAt': FieldValue.serverTimestamp(),
-          })
-          .timeout(const Duration(seconds: 15));
-
-      if (!mounted) return;
-
-      setState(() {
-        _startingTracking = false;
-      });
-
-      Navigator.pushReplacementNamed(
-        context,
-        AppRoutes.liveTracking,
-        arguments: {'reportId': report.id},
-      );
-    } catch (_) {
-      if (!mounted) return;
-
-      setState(() {
-        _startingTracking = false;
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(t.manualTrackingUnableToStart),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-    }
   }
 
   String _emergencyLabel(AppLocalizations t, String value) {
@@ -1143,21 +947,16 @@ class _ManualGuidanceScreenState extends State<ManualGuidanceScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
-                  onPressed: _startingTracking ? null : _continueToTracking,
-                  icon: _startingTracking
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.5,
-                            color: Colors.white,
-                          ),
-                        )
-                      : const Icon(Icons.location_searching_rounded),
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      AppRoutes.emergencyNow,
+                      (route) => false,
+                    );
+                  },
+                  icon: const Icon(Icons.check_circle_outline),
                   label: Text(
-                    _startingTracking
-                        ? t.manualTrackingStarting
-                        : t.viewReportStatus,
+                    t.guestFinishGuidance,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w800,

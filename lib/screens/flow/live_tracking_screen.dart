@@ -1,14 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../l10n/app_localizations.dart';
 
 import '../../routes.dart';
-//import '../common/app_bottom_nav.dart';
+import '../common/app_bottom_nav.dart';
 
 class LiveTrackingScreen extends StatefulWidget {
-  const LiveTrackingScreen({super.key});
+  final bool showBottomNavigationBar;
+
+  const LiveTrackingScreen({super.key, this.showBottomNavigationBar = true});
 
   @override
   State<LiveTrackingScreen> createState() => _LiveTrackingScreenState();
@@ -93,7 +95,12 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
         updates['emergencyId'] = _reportId;
       }
 
-      if (location.isEmpty ||
+      final includeLocation = data['includeLocation'] == true;
+
+      if (!includeLocation) {
+        // Respect the user's choice and never request GPS.
+        updates['location'] = 'Location not shared';
+      } else if (location.isEmpty ||
           location == 'Current GPS location' ||
           location == 'Location not shared') {
         final realLocation = await _getRealLocation();
@@ -137,7 +144,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
     });
   }
 
-  Future<void> _call999() async {
+  /*Future<void> _call999() async {
     final uri = Uri(scheme: 'tel', path: '999');
 
     if (await canLaunchUrl(uri)) {
@@ -152,7 +159,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
     } else {
       _showSnack('Unable to open phone dialer.');
     }
-  }
+  }*/
 
   Future<void> _shareLiveLocation(String location) async {
     String realLocation = location;
@@ -182,7 +189,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
     }
   }
 
-  Future<void> _sendUpdateToContacts(Map<String, dynamic> report) async {
+  /*Future<void> _sendUpdateToContacts(Map<String, dynamic> report) async {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
@@ -272,7 +279,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
     }
 
     if (mounted) setState(() => _busy = false);
-  }
+  }*/
 
   Future<void> _finishEmergency({
     required String status,
@@ -312,7 +319,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
     }
   }
 
-  String _statusMessage(Map<String, dynamic> report) {
+  /*String _statusMessage(Map<String, dynamic> report) {
     return '''
 Emergency Alert
 
@@ -328,7 +335,7 @@ ${report['location'] ?? 'Location not shared'}
 Recommended Responders:
 ${_listText(report['responders'])}
 ''';
-  }
+  }*/
 
   String _listText(dynamic value) {
     if (value is List) {
@@ -338,22 +345,41 @@ ${_listText(report['responders'])}
     return value?.toString() ?? '-';
   }
 
-  String _eta(String stage) {
+  String _eta(AppLocalizations t, String stage) {
     switch (stage) {
       case 'sent':
-        return 'Pending confirmation';
+        return t.trackingPendingConfirmation;
       case 'confirmed':
-        return '999 details confirmed';
+        return t.trackingDetailsConfirmed;
       case 'dispatched':
-        return 'Responder dispatched';
+        return t.trackingResponderDispatched;
       case 'arriving':
-        return 'Responder arriving soon';
+        return t.trackingResponderArriving;
       case 'completed':
-        return 'Assistance arrived';
+        return t.trackingAssistanceArrivedStatus;
       case 'cancelled':
-        return 'False alarm cancelled';
+        return t.trackingFalseAlarmCancelled;
       default:
-        return 'Pending';
+        return t.trackingPending;
+    }
+  }
+
+  String _stageTitle(AppLocalizations t, String stage) {
+    switch (stage) {
+      case 'sent':
+        return t.trackingSosSent;
+      case 'confirmed':
+        return t.trackingDetailsConfirmed;
+      case 'dispatched':
+        return t.trackingResponderDispatched;
+      case 'arriving':
+        return t.trackingResponderArriving;
+      case 'completed':
+        return t.trackingAssistanceArrivedStatus;
+      case 'cancelled':
+        return t.trackingFalseAlarmCancelled;
+      default:
+        return t.trackingActive;
     }
   }
 
@@ -373,25 +399,6 @@ ${_listText(report['responders'])}
         return 4;
       default:
         return 0;
-    }
-  }
-
-  String _stageTitle(String stage) {
-    switch (stage) {
-      case 'sent':
-        return 'SOS Sent';
-      case 'confirmed':
-        return '999 Details Confirmed';
-      case 'dispatched':
-        return 'Responder Dispatched';
-      case 'arriving':
-        return 'Responder Arriving';
-      case 'completed':
-        return 'Assistance Arrived';
-      case 'cancelled':
-        return 'False Alarm Cancelled';
-      default:
-        return 'Tracking Active';
     }
   }
 
@@ -434,11 +441,15 @@ ${_listText(report['responders'])}
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final bgColor = isDark ? const Color(0xFF0B1220) : const Color(0xFFEAF1FB);
+    final t = AppLocalizations.of(context)!;
 
     if (_reportId == null || _reportId!.isEmpty) {
       return Scaffold(
         backgroundColor: bgColor,
         body: SafeArea(child: _NoEmergencyView(onHome: _goHome)),
+        bottomNavigationBar: widget.showBottomNavigationBar
+            ? const AppBottomNav(currentIndex: 2)
+            : null,
       );
     }
 
@@ -465,8 +476,11 @@ ${_listText(report['responders'])}
                 .toString();
             final severity = (report['severity'] ?? '-').toString();
             final confidence = (report['confidence'] ?? '-').toString();
-            final location = (report['location'] ?? 'Location not shared')
-                .toString();
+            final includeLocation = report['includeLocation'] == true;
+
+            final location = includeLocation
+                ? (report['location'] ?? 'Location unavailable').toString()
+                : 'Location not included';
             final responders = _listText(report['responders']);
             final index = _stageIndex(stage);
             final role = (report['reporterRole'] ?? report['role'] ?? 'victim')
@@ -486,8 +500,8 @@ ${_listText(report['responders'])}
                   _Header(onBack: _goHome),
                   const SizedBox(height: 18),
                   _StatusCard(
-                    title: _stageTitle(stage),
-                    eta: _eta(stage),
+                    title: _stageTitle(t, stage),
+                    eta: _eta(t, stage),
                     stage: stage,
                     isEnded: isEnded,
                   ),
@@ -507,40 +521,22 @@ ${_listText(report['responders'])}
                     cancelled: stage == 'cancelled',
                   ),
                   const SizedBox(height: 18),
+
                   if (!isEnded) ...[
-                    _ActionButton(
-                      icon: Icons.call_outlined,
-                      label: 'Call 999',
-                      color: dangerRed,
-                      onPressed: _busy ? null : _call999,
-                    ),
-                    const SizedBox(height: 12),
                     if (isVictim) ...[
                       _ActionButton(
                         icon: Icons.location_on_outlined,
-                        label: 'Share Live Location',
+                        label: t.trackingShareLiveLocation,
                         color: primaryBlue,
                         onPressed: _busy
                             ? null
                             : () => _shareLiveLocation(location),
                       ),
                       const SizedBox(height: 12),
-
-                      _ActionButton(
-                        icon: Icons.notifications_active_outlined,
-                        label: _busy
-                            ? 'Sending...'
-                            : 'Send Update to Emergency Contacts',
-                        color: primaryBlue,
-                        onPressed: _busy
-                            ? null
-                            : () => _sendUpdateToContacts(report),
-                      ),
-                      const SizedBox(height: 12),
                     ],
                     _ActionButton(
                       icon: Icons.local_hospital_outlined,
-                      label: 'Assistance Arrived',
+                      label: t.trackingAssistanceArrived,
                       color: successGreen,
                       onPressed: _busy
                           ? null
@@ -558,8 +554,8 @@ ${_listText(report['responders'])}
                               stage: 'cancelled',
                             ),
                       icon: const Icon(Icons.cancel_outlined),
-                      label: const Text(
-                        'Cancel False Alarm',
+                      label: Text(
+                        t.trackingCancelFalseAlarm,
                         style: TextStyle(
                           fontSize: 15.5,
                           fontWeight: FontWeight.w800,
@@ -586,21 +582,21 @@ ${_listText(report['responders'])}
                       children: [
                         Expanded(
                           child: _SmallStageButton(
-                            label: 'Confirmed',
+                            label: t.trackingConfirmed,
                             onTap: () => _updateStage('confirmed'),
                           ),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: _SmallStageButton(
-                            label: 'Dispatched',
+                            label: t.trackingDispatched,
                             onTap: () => _updateStage('dispatched'),
                           ),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: _SmallStageButton(
-                            label: 'Arriving',
+                            label: t.trackingArriving,
                             onTap: () => _updateStage('arriving'),
                           ),
                         ),
@@ -609,7 +605,7 @@ ${_listText(report['responders'])}
                   ] else
                     _ActionButton(
                       icon: Icons.home_outlined,
-                      label: 'Back to Home',
+                      label: t.trackingBackToHome,
                       color: primaryBlue,
                       onPressed: _goHome,
                     ),
@@ -619,6 +615,9 @@ ${_listText(report['responders'])}
           },
         ),
       ),
+      bottomNavigationBar: widget.showBottomNavigationBar
+          ? const AppBottomNav(currentIndex: 2)
+          : null,
     );
   }
 }
@@ -653,7 +652,7 @@ class _Header extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: Text(
-            'Live Emergency Tracking',
+            AppLocalizations.of(context)!.emergencyTracking,
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w900,
@@ -785,7 +784,7 @@ class _InfoGrid extends StatelessWidget {
             Expanded(
               child: _InfoTile(
                 icon: Icons.confirmation_number_outlined,
-                title: 'Emergency ID',
+                title: AppLocalizations.of(context)!.trackingEmergencyId,
                 value: emergencyId,
               ),
             ),
@@ -793,7 +792,7 @@ class _InfoGrid extends StatelessWidget {
             Expanded(
               child: _InfoTile(
                 icon: Icons.warning_amber_rounded,
-                title: 'Emergency Type',
+                title: AppLocalizations.of(context)!.trackingEmergencyType,
                 value: emergencyType,
               ),
             ),
@@ -805,7 +804,7 @@ class _InfoGrid extends StatelessWidget {
             Expanded(
               child: _InfoTile(
                 icon: Icons.priority_high_rounded,
-                title: 'Severity',
+                title: AppLocalizations.of(context)!.trackingSeverity,
                 value: severity,
               ),
             ),
@@ -813,7 +812,7 @@ class _InfoGrid extends StatelessWidget {
             Expanded(
               child: _InfoTile(
                 icon: Icons.analytics_outlined,
-                title: 'AI Confidence',
+                title: AppLocalizations.of(context)!.trackingAiConfidence,
                 value: '$confidence%',
               ),
             ),
@@ -822,13 +821,13 @@ class _InfoGrid extends StatelessWidget {
         const SizedBox(height: 12),
         _WideInfoTile(
           icon: responderIcon,
-          title: 'Recommended Responders',
+          title: AppLocalizations.of(context)!.trackingRecommendedResponders,
           value: responders,
         ),
         const SizedBox(height: 12),
         _WideInfoTile(
           icon: Icons.location_on_outlined,
-          title: 'Real GPS Location',
+          title: AppLocalizations.of(context)!.trackingRealGpsLocation,
           value: location,
         ),
       ],
@@ -973,9 +972,23 @@ class _StageCard extends StatelessWidget {
     final cardColor = isDark ? const Color(0xFF162033) : Colors.white;
     final textDark = isDark ? Colors.white : const Color(0xFF0B1B3A);
 
+    final t = AppLocalizations.of(context)!;
+
     final stages = cancelled
-        ? ['SOS Sent', 'Confirmed', 'Dispatched', 'Arriving', 'Cancelled']
-        : ['SOS Sent', 'Confirmed', 'Dispatched', 'Arriving', 'Completed'];
+        ? [
+            t.trackingSosSent,
+            t.trackingConfirmed,
+            t.trackingDispatched,
+            t.trackingArriving,
+            t.trackingCancelFalseAlarm,
+          ]
+        : [
+            t.trackingSosSent,
+            t.trackingConfirmed,
+            t.trackingDispatched,
+            t.trackingArriving,
+            t.trackingCompleted,
+          ];
 
     return Container(
       padding: const EdgeInsets.all(18),
@@ -987,7 +1000,7 @@ class _StageCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Malaysia 999 Emergency Flow',
+            AppLocalizations.of(context)!.trackingMalaysia999Flow,
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w900,
@@ -1032,6 +1045,7 @@ class _ProgressStep extends StatelessWidget {
     final textDark = isDark ? Colors.white : const Color(0xFF0B1B3A);
     final textSoft = isDark ? Colors.white70 : const Color(0xFF71829E);
     final lineColor = isDark ? Colors.white24 : const Color(0xFFE2E8F0);
+    final t = AppLocalizations.of(context)!;
 
     final color = cancelled
         ? const Color(0xFFE53935)
@@ -1166,6 +1180,7 @@ class _NoEmergencyView extends StatelessWidget {
     final cardColor = isDark ? const Color(0xFF162033) : Colors.white;
     final textDark = isDark ? Colors.white : const Color(0xFF0B1B3A);
     final textSoft = isDark ? Colors.white70 : const Color(0xFF71829E);
+    final t = AppLocalizations.of(context)!;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(18, 16, 18, 28),
@@ -1197,7 +1212,7 @@ class _NoEmergencyView extends StatelessWidget {
                 ),
                 const SizedBox(height: 18),
                 Text(
-                  'No active emergency',
+                  t.trackingNoActiveEmergency,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 23,
@@ -1207,7 +1222,7 @@ class _NoEmergencyView extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Live tracking will appear after an emergency report is created.',
+                  t.trackingNoActiveEmergencyMessage,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14.5,
@@ -1220,9 +1235,9 @@ class _NoEmergencyView extends StatelessWidget {
                 ElevatedButton.icon(
                   onPressed: onHome,
                   icon: const Icon(Icons.home_outlined),
-                  label: const Text(
-                    'Back to Home',
-                    style: TextStyle(
+                  label: Text(
+                    t.trackingBackToHome,
+                    style: const TextStyle(
                       fontSize: 15.5,
                       fontWeight: FontWeight.w900,
                     ),

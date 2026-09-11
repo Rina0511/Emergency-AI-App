@@ -1158,4 +1158,855 @@ class AppLocalizationsMs extends AppLocalizations {
 
   @override
   String get noReportsYet => 'Tiada laporan lagi';
+
+  @override
+  String greeting(String name) {
+    return 'Hai, $name';
+  }
+
+  @override
+  String get sos => 'SOS';
+
+  @override
+  String get startEmergencyReport => 'Tekan untuk memulakan laporan kecemasan';
+
+  @override
+  String get manualReport => 'Lapor Kecemasan Secara Manual';
+
+  @override
+  String get manualReportDescription => 'Buat laporan kecemasan tanpa analisis AI apabila diperlukan.';
+
+  @override
+  String get manualEmergencyReport => 'Laporan Kecemasan Manual';
+
+  @override
+  String get incidentPhoto => 'Foto Kejadian';
+
+  @override
+  String get noImageSelected => 'Tiada Imej Dipilih';
+
+  @override
+  String get chooseImageFromGallery => 'Ambil foto atau pilih satu daripada galeri.';
+
+  @override
+  String get camera => 'Kamera';
+
+  @override
+  String get validating => 'Sedang Mengesahkan...';
+
+  @override
+  String get emergencyImageValidation => 'Pengesahan Imej Kecemasan';
+
+  @override
+  String get warnings => 'Amaran';
+
+  @override
+  String get emergencyDetails => 'Butiran Kecemasan';
+
+  @override
+  String get emergencyType => 'Jenis Kecemasan';
+
+  @override
+  String get peopleInvolved => 'Orang Terlibat';
+
+  @override
+  String get victimCondition => 'Keadaan Mangsa';
+
+  @override
+  String get dangerPresent => 'Bahaya Yang Ada';
+
+  @override
+  String get emergencyDescription => 'Huraian Kecemasan';
+
+  @override
+  String get emergencyDescriptionHint => 'Terangkan secara ringkas apa yang berlaku...';
+
+  @override
+  String get includeLiveLocation => 'Sertakan Lokasi Langsung';
+
+  @override
+  String get continueManualGuidance => 'Teruskan ke Panduan Manual';
+
+  @override
+  String get flood => 'Banjir';
+
+  @override
+  String get buildingCollapse => 'Bangunan Runtuh';
+
+  @override
+  String get chemicalSpill => 'Tumpahan Bahan Kimia';
+
+  @override
+  String get animalRescue => 'Menyelamatkan Haiwan';
+
+  @override
+  String get other => 'Lain-lain';
+
+  @override
+  String get conscious => 'Sedarkan Diri';
+
+  @override
+  String get unconscious => 'Tidak Sedarkan Diri';
+
+  @override
+  String get bleeding => 'Pendarahan';
+
+  @override
+  String get trapped => 'Tersepit';
+
+  @override
+  String get unknown => 'Tidak Diketahui';
+
+  @override
+  String get smoke => 'Asap';
+
+  @override
+  String get fuelLeak => 'Kebocoran Bahan Api';
+
+  @override
+  String get traffic => 'Lalu Lintas';
+
+  @override
+  String get none => 'Tiada';
+
+  @override
+  String get imageQualityScore => 'Skor Kualiti Imej';
+
+  @override
+  String get incidentSummary => 'Ringkasan Kejadian';
+
+  @override
+  String get included => 'Disertakan';
+
+  @override
+  String get notIncluded => 'Tidak Disertakan';
+
+  @override
+  String get validationStatus => 'Status Pengesahan';
+
+  @override
+  String get validationScore => 'Skor Pengesahan';
+
+  @override
+  String get validationResult => 'Hasil Pengesahan';
+
+  @override
+  String get description => 'Huraian';
+
+  @override
+  String get noAdditionalDescription => 'Tiada huraian tambahan.';
+
+  @override
+  String get recommendedActions => 'Tindakan Disyorkan';
+
+  @override
+  String get viewReportStatus => 'Lihat Status Laporan';
+
+  @override
+  String get someoneNeedsHelp => 'Seseorang Memerlukan Bantuan';
+
+  @override
+  String get otherEmergency => 'Kecemasan Lain';
+
+  @override
+  String get continueToAiAnalysis => 'Teruskan ke Analisis AI';
+
+  @override
+  String get validateAndAnalyze => 'Sahkan & Analisis';
+
+  @override
+  String get bystanderAssist => 'Bantuan Orang Awam';
+
+  @override
+  String get offlineEmergencyAssistance => 'Bantuan Kecemasan Luar Talian';
+
+  @override
+  String get offlineMode => 'Mod Luar Talian';
+
+  @override
+  String get offlineModeDescription => 'Panduan kecemasan tersedia tanpa sambungan internet.';
+
+  @override
+  String get incidentTimer => 'Pemasa Kejadian';
+
+  @override
+  String get pause => 'Jeda';
+
+  @override
+  String get start => 'Mula';
+
+  @override
+  String get reset => 'Tetapkan Semula';
+
+  @override
+  String get cprBeat => 'Rentak CPR';
+
+  @override
+  String get stop => 'Henti';
+
+  @override
+  String get sosFlashlight => 'Lampu Suluh SOS';
+
+  @override
+  String get sosFlashlightDescription => 'Gunakan lampu suluh telefon sebagai isyarat kecemasan.';
+
+  @override
+  String get takeChargeScene => 'Kawal Situasi';
+
+  @override
+  String get viewEmergencyHistory => 'Lihat Sejarah Kecemasan';
+
+  @override
+  String get flashlightUnavailable => 'Lampu suluh tidak tersedia. Tutup kamera dan cuba lagi.';
+
+  @override
+  String get stayCalmDescription => 'Bertenang dan nilai kecemasan sebelum mengambil tindakan.';
+
+  @override
+  String get stayCalmTitle => 'Bertenang';
+
+  @override
+  String get ensureSceneSafety => 'Pastikan Keselamatan Kawasan';
+
+  @override
+  String get ensureSceneSafetyDescription => 'Periksa kebakaran, asap, trafik, elektrik, bahan kimia atau bahaya lain.';
+
+  @override
+  String get protectYourself => 'Lindungi Diri';
+
+  @override
+  String get protectYourselfDescription => 'Jangan menjadi mangsa seterusnya. Masuk hanya jika keadaan selamat.';
+
+  @override
+  String get seekEmergencyHelp => 'Dapatkan Bantuan Kecemasan';
+
+  @override
+  String get seekEmergencyHelpDescription => 'Dapatkan bantuan kecemasan segera jika keadaan mengancam nyawa.';
+
+  @override
+  String get giveFirstAid => 'Berikan Pertolongan Cemas';
+
+  @override
+  String get giveFirstAidDescription => 'Berikan pertolongan cemas hanya jika anda tahu caranya dan keadaan selamat.';
+
+  @override
+  String get waitForResponders => 'Tunggu Petugas Kecemasan';
+
+  @override
+  String get waitForRespondersDescription => 'Terus pantau individu yang terlibat sehingga bantuan profesional tiba.';
+
+  @override
+  String get emergencyFirstAidGuides => 'Panduan Pertolongan Cemas Kecemasan';
+
+  @override
+  String get cprNotBreathing => 'CPR — Tidak Bernafas';
+
+  @override
+  String get severeBleeding => 'Pendarahan Teruk';
+
+  @override
+  String get choking => 'Tercekik';
+
+  @override
+  String get burns => 'Melecur';
+
+  @override
+  String get fractureSpineInjury => 'Patah Tulang / Kecederaan Tulang Belakang';
+
+  @override
+  String get shockUnconsciousBreathing => 'Renjatan / Tidak Sedarkan Diri tetapi Bernafas';
+
+  @override
+  String get poisoning => 'Keracunan';
+
+  @override
+  String get electricShock => 'Renjatan Elektrik';
+
+  @override
+  String get heatStroke => 'Strok Haba';
+
+  @override
+  String get drowning => 'Lemas';
+
+  @override
+  String get animalBite => 'Gigitan Haiwan';
+
+  @override
+  String get cprStep1 => 'Periksa respons — tepuk bahu dan panggil dengan kuat.';
+
+  @override
+  String get cprStep2 => 'Minta seseorang mendapatkan bantuan kecemasan dan AED.';
+
+  @override
+  String get cprStep3 => 'Letakkan tumit sebelah tangan di tengah dada, dengan tangan satu lagi di atasnya.';
+
+  @override
+  String get cprStep4 => 'Tekan dengan kuat dan pantas, sedalam 5–6 cm, pada kadar 100–120 tekanan seminit.';
+
+  @override
+  String get cprStep5 => 'Jangan berhenti sehingga individu bergerak atau bantuan profesional tiba.';
+
+  @override
+  String get cprWarning => 'Lakukan CPR hanya jika individu tidak responsif dan tidak bernafas secara normal.';
+
+  @override
+  String get bleedingStep1 => 'Tekan luka dengan kuat menggunakan kain bersih, balutan steril, atau tangan anda jika tiada pilihan lain.';
+
+  @override
+  String get bleedingStep2 => 'Teruskan tekanan pada luka. Jangan kerap membuka balutan untuk memeriksa pendarahan.';
+
+  @override
+  String get bleedingStep3 => 'Jika darah menembusi balutan, letakkan balutan lain di atasnya dan teruskan tekanan.';
+
+  @override
+  String get bleedingStep4 => 'Angkat lengan atau kaki yang cedera melebihi paras jantung hanya jika tiada patah tulang disyaki.';
+
+  @override
+  String get bleedingStep5 => 'Dapatkan bantuan perubatan kecemasan jika pendarahan tidak dapat dikawal atau mengancam nyawa.';
+
+  @override
+  String get bleedingWarning => 'Jangan keluarkan objek yang tertusuk jauh ke dalam luka. Tekan di sekeliling objek dan tunggu bantuan profesional.';
+
+  @override
+  String get chokingStep1 => 'Tanya individu sama ada mereka tercekik. Jika mereka boleh batuk atau bercakap, galakkan mereka terus batuk.';
+
+  @override
+  String get chokingStep2 => 'Jika mereka tidak boleh batuk, bercakap atau bernafas, berikan sehingga 5 tepukan kuat di antara tulang belikat.';
+
+  @override
+  String get chokingStep3 => 'Jika objek tidak keluar, berikan sehingga 5 tolakan abdomen untuk orang dewasa dan kanak-kanak berumur lebih daripada 1 tahun.';
+
+  @override
+  String get chokingStep4 => 'Teruskan berselang antara 5 tepukan belakang dan 5 tolakan abdomen sehingga halangan keluar atau individu tidak responsif.';
+
+  @override
+  String get chokingStep5 => 'Jika individu tidak responsif, dapatkan bantuan kecemasan dan mulakan CPR jika mereka tidak bernafas secara normal.';
+
+  @override
+  String get chokingWarning => 'Jangan gunakan tolakan abdomen pada bayi. Bagi individu hamil, gunakan tolakan dada. Gunakan teknik pertolongan cemas mengikut umur.';
+
+  @override
+  String get burnsStep1 => 'Jauhkan individu daripada punca haba hanya jika keadaan selamat.';
+
+  @override
+  String get burnsStep2 => 'Sejukkan kawasan melecur di bawah air bersih yang sejuk selama 10–20 minit.';
+
+  @override
+  String get burnsStep3 => 'Tanggalkan cincin, jam tangan dan pakaian yang longgar sebelum bengkak berlaku, tetapi jangan tanggalkan apa-apa yang melekat pada lecuran.';
+
+  @override
+  String get burnsStep4 => 'Tutup lecuran secara longgar dengan balutan steril tidak melekat atau plastik bersih.';
+
+  @override
+  String get burnsStep5 => 'Dapatkan rawatan perubatan segera bagi lecuran dalam, kimia, elektrik, besar atau pada muka.';
+
+  @override
+  String get burnsWarning => 'Jangan sapukan ubat gigi, mentega, minyak, krim atau ais terus pada lecuran.';
+
+  @override
+  String get fractureStep1 => 'Minta individu kekal diam dan elakkan menggerakkan bahagian badan yang cedera.';
+
+  @override
+  String get fractureStep2 => 'Sokong anggota badan yang cedera menggunakan tuala, pakaian atau bidai hanya jika anda terlatih dan keadaan selamat.';
+
+  @override
+  String get fractureStep3 => 'Gunakan pek sejuk yang dibalut untuk mengurangkan bengkak. Jangan letakkan ais terus pada kulit.';
+
+  @override
+  String get fractureStep4 => 'Jika kecederaan tulang belakang disyaki, pastikan kepala, leher dan belakang sejajar. Jangan gerakkan individu kecuali terdapat bahaya segera.';
+
+  @override
+  String get fractureStep5 => 'Dapatkan bantuan perubatan kecemasan bagi kesakitan teruk, kecacatan bentuk anggota, pendarahan banyak atau kecederaan tulang belakang yang disyaki.';
+
+  @override
+  String get fractureWarning => 'Jangan cuba meluruskan tulang yang patah atau menggerakkan individu yang disyaki mengalami kecederaan tulang belakang.';
+
+  @override
+  String get shockStep1 => 'Baringkan individu di atas belakang kecuali kecederaan atau kesukaran bernafas menghalangnya.';
+
+  @override
+  String get shockStep2 => 'Jika tiada kecederaan disyaki, angkat kaki kira-kira 15–30 cm kecuali posisi lain lebih selesa untuk bernafas.';
+
+  @override
+  String get shockStep3 => 'Longgarkan pakaian yang ketat dan pastikan individu sentiasa hangat dengan selimut atau jaket.';
+
+  @override
+  String get shockStep4 => 'Jika individu tidak responsif tetapi bernafas secara normal, letakkan mereka dalam posisi pemulihan jika selamat dilakukan.';
+
+  @override
+  String get shockStep5 => 'Pantau pernafasan dan tahap respons secara berterusan sehingga bantuan profesional tiba.';
+
+  @override
+  String get shockWarning => 'Jangan beri makanan, minuman atau ubat kepada individu yang tidak sedarkan diri.';
+
+  @override
+  String get poisoningStep1 => 'Jauhkan individu daripada bahan beracun hanya jika keadaan selamat.';
+
+  @override
+  String get poisoningStep2 => 'Kenal pasti bahan beracun jika boleh dan simpan bekas atau label untuk petugas perubatan.';
+
+  @override
+  String get poisoningStep3 => 'Jika bahan beracun terkena kulit atau mata, bilas secara berterusan dengan air bersih yang mengalir.';
+
+  @override
+  String get poisoningStep4 => 'Dapatkan bantuan kecemasan jika individu tidak sedarkan diri, sukar bernafas, mengalami sawan atau beberapa orang terjejas.';
+
+  @override
+  String get poisoningStep5 => 'Ikuti arahan petugas perubatan sementara menunggu bantuan.';
+
+  @override
+  String get poisoningWarning => 'Jangan paksa individu muntah atau beri makanan atau minuman melainkan diarahkan oleh petugas perubatan.';
+
+  @override
+  String get electricStep1 => 'Tutup punca elektrik sebelum menghampiri individu, jika selamat untuk dilakukan.';
+
+  @override
+  String get electricStep2 => 'Jangan sentuh individu, wayar terdedah atau kawasan basah sehingga anda pasti bekalan elektrik telah ditutup.';
+
+  @override
+  String get electricStep3 => 'Dapatkan bantuan perubatan kecemasan walaupun individu kelihatan sihat kerana kecederaan elektrik boleh menyebabkan kerosakan dalaman tersembunyi.';
+
+  @override
+  String get electricStep4 => 'Apabila keadaan selamat, periksa pernafasan dan mulakan CPR hanya jika individu tidak bernafas secara normal serta anda terlatih untuk melakukannya.';
+
+  @override
+  String get electricStep5 => 'Selepas bekalan elektrik ditutup, tutup lecuran yang kelihatan secara longgar dengan balutan steril sementara menunggu bantuan.';
+
+  @override
+  String get electricWarning => 'Jangan sekali-kali sentuh individu yang masih bersentuhan dengan elektrik.';
+
+  @override
+  String get heatStep1 => 'Pindahkan individu ke kawasan yang sejuk atau teduh dengan segera.';
+
+  @override
+  String get heatStep2 => 'Tanggalkan pakaian berlebihan untuk membantu badan menyejuk.';
+
+  @override
+  String get heatStep3 => 'Sejukkan badan menggunakan kain basah, semburan air, kipas atau mandian sejuk.';
+
+  @override
+  String get heatStep4 => 'Dapatkan bantuan perubatan kecemasan dengan segera, terutamanya jika individu keliru, rebah atau tidak sedarkan diri.';
+
+  @override
+  String get heatStep5 => 'Pantau pernafasan dan tahap respons sambil terus menyejukkan individu.';
+
+  @override
+  String get heatWarning => 'Strok haba ialah kecemasan perubatan. Jangan beri individu apa-apa untuk diminum.';
+
+  @override
+  String get drowningStep1 => 'Bantu individu keluar dari air hanya jika selamat. Gunakan objek untuk dicapai atau alat terapung jika boleh.';
+
+  @override
+  String get drowningStep2 => 'Dapatkan bantuan kecemasan sebaik sahaja individu selamat keluar dari air.';
+
+  @override
+  String get drowningStep3 => 'Periksa pernafasan. Jika individu tidak bernafas secara normal, mulakan CPR jika anda terlatih untuk melakukannya.';
+
+  @override
+  String get drowningStep4 => 'Gunakan AED jika tersedia dan selamat digunakan.';
+
+  @override
+  String get drowningStep5 => 'Pastikan individu sentiasa hangat dan terus pantau pernafasan serta tahap respons sehingga bantuan profesional tiba.';
+
+  @override
+  String get drowningWarning => 'Jangan cuba mengeluarkan air daripada paru-paru. Fokus pada pernafasan, CPR apabila perlu, dan mendapatkan bantuan kecemasan.';
+
+  @override
+  String get animalBiteStep1 => 'Cuci luka gigitan kecil dengan teliti menggunakan sabun dan air bersih yang mengalir.';
+
+  @override
+  String get animalBiteStep2 => 'Kawal pendarahan dengan memberi tekanan lembut secara terus menggunakan balutan bersih.';
+
+  @override
+  String get animalBiteStep3 => 'Tutup luka dengan pembalut steril yang bersih.';
+
+  @override
+  String get animalBiteStep4 => 'Dapatkan rawatan perubatan bagi luka dalam, gigitan daripada haiwan liar atau tidak dikenali, atau kemungkinan pendedahan rabies.';
+
+  @override
+  String get animalBiteStep5 => 'Pantau luka untuk tanda jangkitan seperti kemerahan bertambah, bengkak, nanah, demam atau garis merah.';
+
+  @override
+  String get animalBiteWarning => 'Gigitan haiwan boleh menyebabkan jangkitan serius. Dapatkan pemeriksaan perubatan jika ragu-ragu.';
+
+  @override
+  String get validationModelLoading => 'Model AI masih dimuatkan. Sila tunggu.';
+
+  @override
+  String get validationUploadImageFirst => 'Sila muat naik imej terlebih dahulu.';
+
+  @override
+  String get validationImageRejectedTitle => 'Imej Ditolak';
+
+  @override
+  String get validationAiGeneratedRejected => 'Ditolak: Imej janaan AI dikesan.';
+
+  @override
+  String get modelClassification => 'Klasifikasi model';
+
+  @override
+  String get classificationAi => 'AI';
+
+  @override
+  String get aiConfidence => 'Keyakinan AI';
+
+  @override
+  String get validationNonEmergencyRejected => 'Ditolak: Imej ini tidak kelihatan menunjukkan insiden kecemasan.';
+
+  @override
+  String get classificationNonEmergency => 'Bukan Kecemasan';
+
+  @override
+  String get validationAcceptedWarningTitle => 'Diterima Dengan Amaran';
+
+  @override
+  String get validationImageAcceptedTitle => 'Imej Diterima';
+
+  @override
+  String get validationAcceptedWarningMessage => 'Diterima: Imej berkemungkinan kecemasan sebenar, tetapi kualiti imej mungkin mengurangkan butiran yang kelihatan.';
+
+  @override
+  String get validationImageAcceptedMessage => 'Diterima: Imej kecemasan sebenar berkemungkinan dikesan.';
+
+  @override
+  String get classificationRealEmergency => 'Kecemasan Sebenar';
+
+  @override
+  String get classificationConfidence => 'Keyakinan klasifikasi';
+
+  @override
+  String get validationUnavailableTitle => 'Pengesahan Tidak Tersedia';
+
+  @override
+  String get validationUnavailableMessage => 'Tidak dapat mengesahkan imej ini. Sila cuba lagi.';
+
+  @override
+  String get uploadEmergencyImageFirst => 'Sila muat naik imej kecemasan.';
+
+  @override
+  String get validateImageFirst => 'Sila sahkan imej terlebih dahulu.';
+
+  @override
+  String get imageRejected => 'Imej ditolak';
+
+  @override
+  String get fireGuidanceMoveAway => 'Jauhkan semua orang daripada kebakaran dengan segera.';
+
+  @override
+  String get fireGuidanceStayLow => 'Jika terdapat asap, kekal rendah untuk mengelakkan penyedutan asap.';
+
+  @override
+  String get fireGuidanceNoElevators => 'Jangan gunakan lif semasa pemindahan keluar.';
+
+  @override
+  String get fireGuidanceTurnOffUtilities => 'Tutup bekalan elektrik atau gas hanya jika selamat untuk dilakukan.';
+
+  @override
+  String get fireGuidanceGetHelp => 'Dapatkan bantuan kecemasan dengan segera.';
+
+  @override
+  String get fireGuidanceWaitSafe => 'Tunggu pasukan bomba di lokasi yang selamat.';
+
+  @override
+  String get fireGuidancePersonTrapped => 'Maklumkan kepada petugas kecemasan bahawa seseorang terperangkap di dalam.';
+
+  @override
+  String get fireGuidanceFuelLeak => 'Jauhkan semua orang daripada punca yang boleh mencetuskan kebakaran.';
+
+  @override
+  String get profileTitle => 'Profil Kecemasan';
+
+  @override
+  String get profileSaved => 'Profil kecemasan telah disimpan';
+
+  @override
+  String get profileMedicalInfoTitle => 'Maklumat perubatan disimpan dalam profil anda';
+
+  @override
+  String get profileMedicalInfoMessage => 'Tersedia apabila anda menghantar laporan kecemasan.';
+
+  @override
+  String get profilePersonal => 'Peribadi';
+
+  @override
+  String get profileFullName => 'Nama Penuh';
+
+  @override
+  String get profileAge => 'Umur';
+
+  @override
+  String get profileBloodGroup => 'Kumpulan Darah';
+
+  @override
+  String get profileUnknown => 'Tidak Diketahui';
+
+  @override
+  String get profileAllergies => 'Alahan';
+
+  @override
+  String get profileAllergiesHint => 'Contoh: Penisilin, Kacang';
+
+  @override
+  String get profileMedicalConditions => 'Keadaan Perubatan';
+
+  @override
+  String get profileMedicalConditionsHint => 'Contoh: Asma, Diabetes';
+
+  @override
+  String get profileCurrentMedication => 'Ubat Semasa';
+
+  @override
+  String get profileMedicationHint => 'Contoh: Penyedut Ventolin';
+
+  @override
+  String get profileNextOfKin => 'Waris Terdekat';
+
+  @override
+  String get profileKinNameHint => 'Nama (Hubungan)';
+
+  @override
+  String get profilePhoneNumber => 'Nombor Telefon';
+
+  @override
+  String get profileSaveButton => 'Simpan Profil Kecemasan';
+
+  @override
+  String get emergencyNowTitle => 'Kecemasan Sekarang';
+
+  @override
+  String get emergencyNowSubtitle => 'Mulakan laporan manual dan terima panduan keselamatan segera.';
+
+  @override
+  String get startManualReport => 'Mulakan Laporan Kecemasan Manual';
+
+  @override
+  String get emergencyNowNotice => 'Aplikasi ini menyediakan sokongan pelaporan dan panduan. Ia tidak menghubungi atau menghantar perkhidmatan kecemasan.';
+
+  @override
+  String get guestFinishGuidance => 'Selesai dan Kembali';
+
+  @override
+  String get guestFinishGuidanceMessage => 'Anda boleh memulakan laporan lain apabila diperlukan.';
+
+  @override
+  String get navHome => 'Laman Utama';
+
+  @override
+  String get navDetect => 'Kesan';
+
+  @override
+  String get navTracking => 'Status';
+
+  @override
+  String get navProfile => 'Profil';
+
+  @override
+  String get navAssist => 'Bantuan';
+
+  @override
+  String get emergencyAnalysisResult => 'Hasil Analisis Kecemasan';
+
+  @override
+  String get emergencyTracking => 'Penjejakan Kecemasan';
+
+  @override
+  String get trackingSosSent => 'SOS Dihantar';
+
+  @override
+  String get trackingPendingConfirmation => 'Menunggu pengesahan';
+
+  @override
+  String get trackingEmergencyId => 'ID Kecemasan';
+
+  @override
+  String get trackingEmergencyType => 'Jenis Kecemasan';
+
+  @override
+  String get trackingSeverity => 'Tahap Keterukan';
+
+  @override
+  String get trackingAiConfidence => 'Keyakinan AI';
+
+  @override
+  String get trackingRecommendedResponders => 'Pihak Disyorkan';
+
+  @override
+  String get trackingRealGpsLocation => 'Lokasi GPS Sebenar';
+
+  @override
+  String get trackingMalaysia999Flow => 'Aliran Kecemasan Malaysia 999';
+
+  @override
+  String get trackingConfirmed => 'Disahkan';
+
+  @override
+  String get trackingDispatched => 'Dihantar';
+
+  @override
+  String get trackingArriving => 'Dalam Perjalanan';
+
+  @override
+  String get trackingCompleted => 'Selesai';
+
+  @override
+  String get trackingCall999 => 'Hubungi 999';
+
+  @override
+  String get trackingAssistanceArrived => 'Bantuan Tiba';
+
+  @override
+  String get trackingCancelFalseAlarm => 'Batal Amaran Palsu';
+
+  @override
+  String get trackingShareLiveLocation => 'Kongsi Lokasi Langsung';
+
+  @override
+  String get trackingSending => 'Menghantar...';
+
+  @override
+  String get trackingSendUpdateToContacts => 'Hantar Kemas Kini kepada Kenalan Kecemasan';
+
+  @override
+  String get trackingBackToHome => 'Kembali ke Laman Utama';
+
+  @override
+  String get trackingNoActiveEmergency => 'Tiada kecemasan aktif';
+
+  @override
+  String get trackingNoActiveEmergencyMessage => 'Penjejakan kecemasan akan dipaparkan selepas laporan kecemasan dibuat.';
+
+  @override
+  String get trackingLocationPermissionDenied => 'Kebenaran lokasi ditolak';
+
+  @override
+  String get trackingLocationUnavailable => 'Lokasi tidak tersedia';
+
+  @override
+  String get trackingUnableOpenDialer => 'Tidak dapat membuka pendail telefon.';
+
+  @override
+  String get trackingUnableOpenMaps => 'Tidak dapat membuka Google Maps.';
+
+  @override
+  String get trackingLoginFirst => 'Sila log masuk dahulu.';
+
+  @override
+  String get trackingNoContacts => 'Tiada kenalan kecemasan ditemui.';
+
+  @override
+  String trackingAlertSent(Object count) {
+    return 'Amaran kecemasan dihantar kepada $count kenalan.';
+  }
+
+  @override
+  String get trackingInvalidContact => 'Kenalan tidak mempunyai ID Pengguna Aplikasi yang sah.';
+
+  @override
+  String trackingUpdateFailed(Object error) {
+    return 'Gagal menghantar kemas kini: $error';
+  }
+
+  @override
+  String trackingEmergencyUpdateFailed(Object error) {
+    return 'Gagal mengemas kini kecemasan: $error';
+  }
+
+  @override
+  String get trackingPending => 'Menunggu';
+
+  @override
+  String get trackingDetailsConfirmed => 'Maklumat 999 Disahkan';
+
+  @override
+  String get trackingResponderDispatched => 'Pasukan Bantuan Dihantar';
+
+  @override
+  String get trackingResponderArriving => 'Pasukan Bantuan Dalam Perjalanan';
+
+  @override
+  String get trackingAssistanceArrivedStatus => 'Bantuan Telah Tiba';
+
+  @override
+  String get trackingFalseAlarmCancelled => 'Amaran Palsu Dibatalkan';
+
+  @override
+  String get trackingActive => 'Penjejakan Aktif';
+
+  @override
+  String get trackingNoLocationShared => 'Lokasi tidak dikongsi';
+
+  @override
+  String get trackingEmergency => 'Kecemasan';
+
+  @override
+  String get trackingHigh => 'Tinggi';
+
+  @override
+  String get trackingUnknown => 'Tidak Diketahui';
+
+  @override
+  String get analysisLoading => 'Menganalisis imej dengan Gemini AI...';
+
+  @override
+  String get analysisEvidenceDetected => 'Bukti AI Dikesan';
+
+  @override
+  String get analysisRecommendedResponders => 'Pihak Disyorkan';
+
+  @override
+  String get analysisSuggestedEquipment => 'Peralatan Disyorkan';
+
+  @override
+  String get analysisSaving => 'Menyimpan...';
+
+  @override
+  String get analysisConfirmGetHelp => 'Sahkan dan Dapatkan Bantuan';
+
+  @override
+  String get analysisNoEmergencyIdentified => 'Tiada Kecemasan Dikenal Pasti';
+
+  @override
+  String get analysisReanalyze => 'Analisis Semula';
+
+  @override
+  String get analysisFalseAlarm => 'Amaran Palsu';
+
+  @override
+  String get analysisEmergencyDetected => 'Kecemasan Dikesan';
+
+  @override
+  String get analysisType => 'Jenis';
+
+  @override
+  String get analysisSeverity => 'Tahap Keterukan';
+
+  @override
+  String get analysisConfidenceLevel => 'Tahap Keyakinan';
+
+  @override
+  String get analysisIncidentSummary => 'Ringkasan Insiden AI';
+
+  @override
+  String get analysisNoSpecificDetails => 'Tiada maklumat khusus dikesan';
+
+  @override
+  String get analysisNoSummary => 'Tiada ringkasan dijana.';
+
+  @override
+  String get analysisFailed => 'Analisis AI gagal';
+
+  @override
+  String get analysisTryAgain => 'Cuba Lagi';
+
+  @override
+  String get cprBeatCount => 'Kiraan Rentak CPR';
+
+  @override
+  String get manualTrackingStarting => 'Memulakan...';
+
+  @override
+  String get manualTrackingInternetRequired => 'Sambungan internet diperlukan untuk menghantar laporan dan melihat Penjejakan Kecemasan. Panduan kecemasan masih tersedia di luar talian.';
+
+  @override
+  String get manualTrackingUnableToStart => 'Tidak dapat memulakan Penjejakan Kecemasan. Semak sambungan internet anda dan cuba lagi.';
 }

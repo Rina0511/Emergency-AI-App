@@ -3,61 +3,65 @@ import 'dart:io';
 import 'package:image/image.dart' as img;
 import 'package:tflite_flutter/tflite_flutter.dart';
 
-class FakeDetectionResult {
-  final bool isFake;
-  final double confidence;
+enum ImageClassification { ai, nonEmergency, realEmergency }
 
-  FakeDetectionResult({required this.isFake, required this.confidence});
+class FakeDetectionResult {
+  final ImageClassification classification;
+  final double confidence;
+  final List<double> probabilities;
+
+  FakeDetectionResult({
+    required this.classification,
+    required this.confidence,
+    required this.probabilities,
+  });
+
+  bool get isFake => classification == ImageClassification.ai;
+
+  bool get isNonEmergency => classification == ImageClassification.nonEmergency;
+
+  bool get isRealEmergency =>
+      classification == ImageClassification.realEmergency;
+
+  String get label {
+    switch (classification) {
+      case ImageClassification.ai:
+        return "AI";
+      case ImageClassification.nonEmergency:
+        return "Non_Emergency";
+      case ImageClassification.realEmergency:
+        return "Real";
+    }
+  }
 }
 
 class FakeDetector {
   late Interpreter interpreter;
+
   Future<void> loadModel() async {
-    try {
-      print("==================================");
-      print("START LOADING MODEL");
-      final options = InterpreterOptions()..threads = 4;
+    final options = InterpreterOptions()..threads = 4;
 
-      interpreter = await Interpreter.fromAsset(
-        'assets/models/emergency_validator.tflite',
-        options: options,
-      );
+    interpreter = await Interpreter.fromAsset(
+      'assets/models/emergency_validator.tflite',
+      options: options,
+    );
 
-      print("MODEL LOADED");
-
-      print("Input shape:");
-      print(interpreter.getInputTensor(0).shape);
-
-      print("Output shape:");
-      print(interpreter.getOutputTensor(0).shape);
-
-      print("DONE");
-      print("==================================");
-    } catch (e, s) {
-      print("==================================");
-      print("LOAD MODEL FAILED");
-      print(e);
-      print(s);
-      print("==================================");
-
-      rethrow;
-    }
+    print("Model input: ${interpreter.getInputTensor(0).shape}");
+    print("Model output: ${interpreter.getOutputTensor(0).shape}");
   }
 
   Future<FakeDetectionResult> detect(File imageFile) async {
-    // Read image
-    final bytes = imageFile.readAsBytesSync();
-
+    final bytes = await imageFile.readAsBytes();
     final image = img.decodeImage(bytes);
 
     if (image == null) {
-      throw Exception("Unable to read image");
+      throw Exception("Unable to read image.");
     }
 
-    // Resize to model input size
     final resized = img.copyResize(image, width: 224, height: 224);
 
-    // Create input tensor
+    // Keep raw pixel values here.
+    // MobileNetV2 preprocessing is already inside your trained TFLite model.
     final input = List.generate(
       1,
       (_) => List.generate(
@@ -65,39 +69,35 @@ class FakeDetector {
         (y) => List.generate(224, (x) {
           final pixel = resized.getPixel(x, y);
 
-          return [
-            (pixel.r / 127.5) - 1.0,
-            (pixel.g / 127.5) - 1.0,
-            (pixel.b / 127.5) - 1.0,
-          ];
+          return [pixel.r.toDouble(), pixel.g.toDouble(), pixel.b.toDouble()];
         }),
       ),
     );
 
-    // Output tensor
-    final output = List.generate(1, (_) => List.filled(1, 0.0));
+    // New model output: [AI, Non_Emergency, Real].
+    final output = List.generate(1, (_) => List.filled(3, 0.0));
 
-    // Run inference
-    try {
-      print("Running TFLite model...");
+    interpreter.run(input, output);
 
-      interpreter.run(input, output);
+    final probabilities = List<double>.from(output[0]);
 
-      print("Inference finished.");
-      print(output);
-    } catch (e, s) {
-      print("========== TFLITE ERROR ==========");
-      print(e);
-      print(s);
-      rethrow;
+    int predictedIndex = 0;
+    for (int i = 1; i < probabilities.length; i++) {
+      if (probabilities[i] > probabilities[predictedIndex]) {
+        predictedIndex = i;
+      }
     }
 
-    final score = output[0][0];
-    print("Model Score : $score");
-    final isFake = score < 0.5;
+    final classification = switch (predictedIndex) {
+      0 => ImageClassification.ai,
+      1 => ImageClassification.nonEmergency,
+      _ => ImageClassification.realEmergency,
+    };
 
-    final confidence = isFake ? (1.0 - score) : score;
-
-    return FakeDetectionResult(isFake: isFake, confidence: confidence);
+    return FakeDetectionResult(
+      classification: classification,
+      confidence: probabilities[predictedIndex],
+      probabilities: probabilities,
+    );
   }
 }

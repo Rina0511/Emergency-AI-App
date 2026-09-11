@@ -5,18 +5,19 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../services/emergency_image_validation_service.dart';
 import '../../services/emergency_decision_engine.dart';
-import '../flow/manual_guidance_screen.dart';
+import 'guest_manual_guidance_screen.dart';
 import '../../services/fake_detector.dart';
 import '../../l10n/app_localizations.dart';
 
-class ManualReportScreen extends StatefulWidget {
-  const ManualReportScreen({super.key});
+class GuestManualReportScreen extends StatefulWidget {
+  const GuestManualReportScreen({super.key});
 
   @override
-  State<ManualReportScreen> createState() => _ManualReportScreenState();
+  State<GuestManualReportScreen> createState() =>
+      _GuestManualReportScreenState();
 }
 
-class _ManualReportScreenState extends State<ManualReportScreen> {
+class _GuestManualReportScreenState extends State<GuestManualReportScreen> {
   //----------------------------------------------------------
   // CONTROLLERS
   //----------------------------------------------------------
@@ -1033,7 +1034,7 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => ManualGuidanceScreen(
+                        builder: (_) => GuestManualGuidanceScreen(
                           emergencyType: _selectedEmergency,
 
                           victimCondition: _selectedVictimCondition,

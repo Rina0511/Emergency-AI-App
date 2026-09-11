@@ -141,12 +141,8 @@ class _UploadScreenState extends State<UploadScreen> {
       _isValidating = true;
     });
 
-    bool possibleAiImage = false;
-
     try {
-      final fakeResult = await _fakeDetector.detect(_selectedImage!);
-      possibleAiImage = fakeResult.isFake;
-
+      // 1. File quality: blur, darkness, resolution, invalid image.
       _validationResult = await EmergencyImageValidationService.validateImage(
         _selectedImage!,
       );
@@ -155,64 +151,101 @@ class _UploadScreenState extends State<UploadScreen> {
         _validationResult!,
       );
 
-      final warnings = <String>{
-        ...qualityDecision.warnings,
-        if (possibleAiImage)
-          "Possible AI-generated or edited image. Manual verification is recommended.",
-      }.toList();
+      if (!qualityDecision.allowAiAnalysis) {
+        _decisionResult = qualityDecision;
+      } else {
+        // 2. Offline model: AI / Non_Emergency / Real.
+        final result = await _fakeDetector.detect(_selectedImage!);
 
-      final needsManualVerification =
-          possibleAiImage ||
-          qualityDecision.status != EmergencyDecisionStatus.accept;
+        if (result.isFake) {
+          _decisionResult = EmergencyDecisionResult(
+            status: EmergencyDecisionStatus.reject,
+            allowAiAnalysis: false,
+            title: "Image Rejected",
+            message: "Rejected: AI-generated image detected.",
+            decisionScore: qualityDecision.decisionScore,
+            warnings: [
+              "Model classification: AI.",
+              "Classification confidence: ${(result.confidence * 100).toStringAsFixed(1)}%.",
+            ],
+          );
+        } else if (result.isNonEmergency) {
+          _decisionResult = EmergencyDecisionResult(
+            status: EmergencyDecisionStatus.reject,
+            allowAiAnalysis: false,
+            title: "Image Rejected",
+            message:
+                "Rejected: This image does not appear to show an emergency incident.",
+            decisionScore: qualityDecision.decisionScore,
+            warnings: [
+              "Model classification: Non-Emergency.",
+              "Classification confidence: ${(result.confidence * 100).toStringAsFixed(1)}%.",
+            ],
+          );
+        } else {
+          final hasQualityWarning =
+              qualityDecision.status == EmergencyDecisionStatus.warning ||
+              qualityDecision.warnings.isNotEmpty;
 
-      _decisionResult = EmergencyDecisionResult(
-        status: needsManualVerification
-            ? EmergencyDecisionStatus.warning
-            : EmergencyDecisionStatus.accept,
-
-        // Allow emergency analysis, but clearly show warnings.
-        allowAiAnalysis: true,
-
-        title: needsManualVerification
-            ? "Manual Verification Recommended"
-            : "Image Ready for Analysis",
-
-        message: needsManualVerification
-            ? "AI analysis can continue, but this image should be manually verified."
-            : "Image quality is sufficient for analysis. "
-                  "Authenticity screening found no strong AI-generation indicators.",
-
-        decisionScore: qualityDecision.decisionScore,
-        warnings: warnings,
+          _decisionResult = EmergencyDecisionResult(
+            status: hasQualityWarning
+                ? EmergencyDecisionStatus.warning
+                : EmergencyDecisionStatus.accept,
+            allowAiAnalysis: true,
+            title: hasQualityWarning
+                ? "Accepted With Warning"
+                : "Image Ready for Analysis",
+            message: hasQualityWarning
+                ? "Real emergency image detected, but image quality may affect AI analysis."
+                : "Likely real emergency image detected and ready for AI analysis.",
+            decisionScore: qualityDecision.decisionScore,
+            warnings: [
+              ...qualityDecision.warnings,
+              "Model classification: Real Emergency.",
+              "Classification confidence: ${(result.confidence * 100).toStringAsFixed(1)}%.",
+            ],
+          );
+        }
+      }
+    } catch (e) {
+      _decisionResult = const EmergencyDecisionResult(
+        status: EmergencyDecisionStatus.reject,
+        allowAiAnalysis: false,
+        title: "Validation Unavailable",
+        message: "Unable to validate this image. Please try again.",
+        decisionScore: 0,
+        warnings: [],
       );
 
-      _allowAiAnalysis = true;
-      _validationTitle = _decisionResult!.title;
-      _validationMessage = _decisionResult!.message;
-
-      _validationColor = needsManualVerification ? Colors.orange : Colors.green;
-
-      _validationIcon = needsManualVerification
-          ? Icons.warning_amber_rounded
-          : Icons.verified;
-    } catch (e) {
-      debugPrint("Image validation error: $e");
-
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("Image validation failed: $e")));
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _imageValidated = _decisionResult != null;
-          _isValidating = false;
-        });
-      }
+      debugPrint("Upload validation error: $e");
     }
-  }
 
+    if (!mounted) return;
+
+    _allowAiAnalysis = _decisionResult!.allowAiAnalysis;
+    _validationTitle = _decisionResult!.title;
+    _validationMessage = _decisionResult!.message;
+
+    switch (_decisionResult!.status) {
+      case EmergencyDecisionStatus.accept:
+        _validationColor = Colors.green;
+        _validationIcon = Icons.verified;
+        break;
+      case EmergencyDecisionStatus.warning:
+        _validationColor = Colors.orange;
+        _validationIcon = Icons.warning_amber_rounded;
+        break;
+      case EmergencyDecisionStatus.reject:
+        _validationColor = Colors.red;
+        _validationIcon = Icons.cancel;
+        break;
+    }
+
+    setState(() {
+      _imageValidated = true;
+      _isValidating = false;
+    });
+  }
   //----------------------------------------------------------
   // ANALYZE
   //----------------------------------------------------------
@@ -386,8 +419,8 @@ class _UploadScreenState extends State<UploadScreen> {
                   ),
                   child: Text(
                     _role == 'witness'
-                        ? 'Someone Needs Help'
-                        : 'Other Emergency',
+                        ? l10n.someoneNeedsHelp
+                        : l10n.otherEmergency,
                     style: const TextStyle(
                       fontSize: 15,
                       color: primaryBlue,
@@ -493,8 +526,8 @@ class _UploadScreenState extends State<UploadScreen> {
 
                         label: Text(
                           _isValidating
-                              ? "Validating..."
-                              : "Emergency Image Validation",
+                              ? l10n.validating
+                              : l10n.emergencyImageValidation,
                         ),
 
                         style: ElevatedButton.styleFrom(
@@ -569,9 +602,11 @@ class _UploadScreenState extends State<UploadScreen> {
 
                               const SizedBox(height: 8),
 
-                              const Text(
-                                "Warnings",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                              Text(
+                                l10n.warnings,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
 
                               const SizedBox(height: 6),
@@ -759,8 +794,8 @@ class _UploadScreenState extends State<UploadScreen> {
 
                   label: Text(
                     _allowAiAnalysis
-                        ? "Continue to AI Analysis"
-                        : "Validate & Analyze",
+                        ? l10n.continueToAiAnalysis
+                        : l10n.validateAndAnalyze,
 
                     style: const TextStyle(
                       fontSize: 16,

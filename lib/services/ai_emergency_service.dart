@@ -43,8 +43,15 @@ class EmergencyAiResult {
       summary: json['summary']?.toString() ?? '',
       responders: List<String>.from(json['responders'] ?? []),
       equipment: List<String>.from(json['equipment'] ?? []),
+
       safetySteps: List<String>.from(json['safetySteps'] ?? []),
     );
+  }
+  bool get isEmergencyScene {
+    return incidentCategory.toLowerCase() != "non-emergency" &&
+        incidentSubType.toLowerCase() != "animal observation" &&
+        emergencyType.toLowerCase() != "unknown" &&
+        confidence >= 60;
   }
 }
 
@@ -95,6 +102,7 @@ class AiEmergencyService {
   static Future<EmergencyAiResult> analyzeImage(
     File imageFile, {
     required String role,
+    String languageCode = 'en',
   }) async {
     _checkApiKey();
 
@@ -113,139 +121,64 @@ class AiEmergencyService {
 
     final base64Image = base64Encode(bytes);
 
-    const prompt = '''
-Analyze this image as an Emergency Decision Support System.
+    final outputLanguage = languageCode == 'ms' ? 'Bahasa Melayu' : 'English';
 
-Determine:
+    final prompt =
+        '''
+You are validating whether an uploaded photograph shows a genuine emergency incident.
 
-• incidentCategory
-• incidentSubType
-• emergencyType
-• confidence
-• severity
-• evidence
-• summary
-• responders
-• equipment
-• safetySteps
-
-Return ONLY valid JSON.
+Return ONLY valid JSON in this exact format:
 
 {
   "incidentCategory":"Human | Animal | Environmental | Infrastructure | Non-Emergency",
-
   "incidentSubType":"Medical | Accident | Fire | Crime | Animal Rescue | Animal Observation | Flood | Gas Leak | Landslide | Electrical Hazard | Building Collapse | Unknown",
-
   "emergencyType":"Medical | Accident | Fire | Crime | Hazard | Animal Rescue | Flood | Gas Leak | Building Collapse | Electrical Hazard | Landslide | Unknown",
-
   "confidence":0,
-
   "severity":"Low | Medium | High",
-
-  "evidence":["short evidence"],
-
+  "evidence":["short visible evidence"],
   "summary":"short summary",
-
   "responders":["Fire Department"],
-
   "equipment":["First Aid Kit"],
-
-  "safetySteps":["step1","step2"]
+  "safetySteps":["step 1"]
 }
+Language rules:
 
-Rules:
+- Keep these fields exactly in English using only the allowed values:
+  incidentCategory, incidentSubType, emergencyType, severity.
 
-1. First determine whether this is:
+- Write the user-visible text fields in $outputLanguage:
+  evidence, summary, responders, equipment, safetySteps.
 
-Human
+- Do not translate JSON field names.
+- For Bahasa Melayu, use clear, simple Malay suitable for an emergency app.
+Decision rules:
 
-Animal
+1. First decide whether a visible emergency is actually present.
 
-Environmental
+2. Return "Non-Emergency" when the image is:
+- a normal home, room, street, landscape, food, clothing, keychain, product, selfie, pet photo, or ordinary daily-life image;
+- a screenshot, document, poster, drawing, cartoon, illustration, or computer/television display;
+- too unclear to identify a visible emergency;
+- an animal with no visible injury, entrapment, fire, flood, traffic danger, or other immediate danger;
+- unclear or uncertain. Do not guess an emergency.
 
-Infrastructure
+3. A cat, dog, or other animal is "Animal Rescue" only when visible danger, injury, entrapment, or distress is present. Otherwise return "Non-Emergency".
 
-Non-Emergency
+4. For "Non-Emergency":
+- incidentSubType must be "Unknown"
+- emergencyType must be "Unknown"
+- severity must be "Low"
+- responders, equipment, and safetySteps must be empty lists
+- explain briefly in summary that no visible emergency incident was identified.
 
-Return it as incidentCategory.
+5. Only classify as an emergency when visible evidence supports it, such as:
+- collision damage, fallen rider, injury, smoke, fire, flooding, collapse, hazardous spill, exposed electrical danger, crime threat, trapped/injured animal, or a person needing urgent medical help.
 
-2. Then determine the exact incident subtype.
+6. Never invent victims, injuries, fire, damage, or hazards that cannot be seen.
 
-Examples
+7. Confidence must be 0–100.
 
-Medical
-
-Accident
-
-Fire
-
-Crime
-
-Animal Rescue
-
-Animal Observation
-
-Flood
-
-Gas Leak
-
-Building Collapse
-
-Electrical Hazard
-
-Landslide
-
-Unknown
-
-Return it as incidentSubType.
-
-3. Determine emergencyType as the primary emergency category.
-
-Use:
-
-Medical
-
-Accident
-
-Fire
-
-Crime
-
-Hazard
-
-Animal Rescue
-
-Unknown
-
-Examples:
-
-Building Collapse → Hazard
-
-Gas Leak → Hazard
-
-Flood → Hazard
-
-Electrical Hazard → Hazard
-
-Landslide → Hazard
-
-Animal Observation → Unknown
-
-Animal Rescue → Animal Rescue
-
-4. Confidence must be 0–100.
-
-5. Severity must be Low, Medium or High.
-
-6. Responders must be empty only if emergencyType is Unknown.
-
-7. Equipment must be empty only if emergencyType is Unknown.
-
-8. Safety steps must be empty only if emergencyType is Unknown.
-
-9. Return ONLY valid JSON.
-
-
+8. Return ONLY valid JSON. No Markdown and no explanation outside JSON.
 ''';
 
     http.Response? response;

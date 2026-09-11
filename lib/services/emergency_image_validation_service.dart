@@ -198,12 +198,12 @@ class EmergencyImageValidationService {
 
     final brightness = _calculateBrightness(image);
 
-    if (brightness < 25) {
+    if (brightness < 35) {
       return ImageValidationResult(
         isValidImage: false,
         validationScore: 25,
         status: "Rejected",
-        reason: "Image is too dark.",
+        reason: "Image is too dark for reliable emergency assessment.",
         width: image.width,
         height: image.height,
         fileSizeMB: fileSizeMB,
@@ -213,12 +213,12 @@ class EmergencyImageValidationService {
       );
     }
 
-    if (brightness > 245) {
+    if (brightness > 235) {
       return ImageValidationResult(
         isValidImage: false,
         validationScore: 25,
         status: "Rejected",
-        reason: "Image is overexposed.",
+        reason: "Image is too overexposed for reliable emergency assessment.",
         width: image.width,
         height: image.height,
         fileSizeMB: fileSizeMB,
@@ -226,6 +226,10 @@ class EmergencyImageValidationService {
         editedImage: false,
         warnings: const [],
       );
+    }
+
+    if (brightness < 60 || brightness > 220) {
+      warnings.add("Lighting may reduce emergency-scene visibility.");
     }
 
     //------------------------------------------------------------
@@ -237,12 +241,13 @@ class EmergencyImageValidationService {
 
     final contrast = _calculateContrast(image);
 
-    if (contrast < 180) {
+    if (contrast < 120) {
       return ImageValidationResult(
         isValidImage: false,
         validationScore: 35,
         status: "Rejected",
-        reason: "Image has very low contrast.",
+        reason:
+            "Image has too little contrast for reliable emergency assessment.",
         width: image.width,
         height: image.height,
         fileSizeMB: fileSizeMB,
@@ -252,15 +257,30 @@ class EmergencyImageValidationService {
       );
     }
 
-    //------------------------------------------------------------
-    // BLUR
-    //------------------------------------------------------------
+    if (contrast < 220) {
+      warnings.add("Low contrast may reduce emergency-scene visibility.");
+    }
 
     final blur = _estimateBlur(image);
 
-    if (blur < 2) {
+    if (blur < 0.8) {
+      return ImageValidationResult(
+        isValidImage: false,
+        validationScore: 40,
+        status: "Rejected",
+        reason: "Image is too blurry for reliable emergency assessment.",
+        width: image.width,
+        height: image.height,
+        fileSizeMB: fileSizeMB,
+        hasMetadata: false,
+        editedImage: false,
+        warnings: warnings,
+      );
+    }
+
+    if (blur < 4) {
       warnings.add(
-        "Low image clarity detected. Smoke, motion, or low-light conditions may reduce sharpness.",
+        "Image clarity is reduced. Details may be difficult to assess.",
       );
     }
 
@@ -365,7 +385,7 @@ class EmergencyImageValidationService {
     //------------------------------------------------------------
 
     if (editedImage) {
-      warnings.add("Possible AI generated or heavily edited image.");
+      warnings.add("Image metadata indicates it may have been edited.");
     }
     //------------------------------------------------------------
     // NON-EMERGENCY SCENE VALIDATION
@@ -392,11 +412,21 @@ class EmergencyImageValidationService {
     // SUCCESS
     //------------------------------------------------------------
 
+    int qualityScore = 100;
+
+    if (brightness < 60 || brightness > 220) qualityScore -= 15;
+    if (contrast < 220) qualityScore -= 15;
+    if (blur < 7) qualityScore -= 20;
+    if (!hasMetadata) qualityScore -= 5;
+    if (editedImage) qualityScore -= 15;
+
+    qualityScore = qualityScore.clamp(0, 100).toInt();
+
     return ImageValidationResult(
       isValidImage: true,
-      validationScore: 100,
-      status: "Passed",
-      reason: "Emergency image validation passed.",
+      validationScore: qualityScore,
+      status: warnings.isEmpty ? "Passed" : "Passed with warnings",
+      reason: "Technical image-quality validation passed.",
       width: image.width,
       height: image.height,
       fileSizeMB: fileSizeMB,

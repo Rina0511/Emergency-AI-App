@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 
 import '../../routes.dart';
 
@@ -164,6 +165,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = AppLocalizations.of(context)!;
 
     final navColor = isDark ? const Color(0xFF162033) : Colors.white;
 
@@ -196,31 +198,31 @@ class _AppBottomNavState extends State<AppBottomNav> {
             fontWeight: FontWeight.w500,
             fontSize: 12,
           ),
-          items: const [
+          items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
               activeIcon: Icon(Icons.home),
-              label: 'Home',
+              label: t.navHome,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.center_focus_weak_outlined),
               activeIcon: Icon(Icons.center_focus_weak),
-              label: 'Detect',
+              label: t.navDetect,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.my_location_outlined),
               activeIcon: Icon(Icons.my_location),
-              label: 'Tracking',
+              label: t.navTracking,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_outline),
               activeIcon: Icon(Icons.person),
-              label: 'Profile',
+              label: t.navProfile,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.history_outlined),
-              activeIcon: Icon(Icons.history),
-              label: 'History',
+              icon: Icon(Icons.health_and_safety_outlined),
+              activeIcon: Icon(Icons.health_and_safety),
+              label: t.navAssist,
             ),
           ],
         ),

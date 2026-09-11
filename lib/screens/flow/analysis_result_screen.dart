@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import '../../routes.dart';
 import '../../services/ai_emergency_service.dart';
 import '../common/app_bottom_nav.dart';
+import '../../l10n/app_localizations.dart';
 
 class AnalysisResultScreen extends StatefulWidget {
   const AnalysisResultScreen({super.key});
@@ -36,6 +37,14 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
   String _role = "someoneElse";
   bool _includeLocation = true;
   bool _started = false;
+  bool get _hasVerifiedEmergency {
+    if (_result == null) return false;
+
+    return _result!.incidentCategory.toLowerCase() != "non-emergency" &&
+        _result!.incidentSubType.toLowerCase() != "animal observation" &&
+        _result!.emergencyType.toLowerCase() != "unknown" &&
+        _result!.confidence >= 60;
+  }
 
   @override
   void didChangeDependencies() {
@@ -85,6 +94,7 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
       final result = await AiEmergencyService.analyzeImage(
         _imageFile!,
         role: _role,
+        languageCode: Localizations.localeOf(context).languageCode,
       );
 
       if (!mounted) return;
@@ -128,6 +138,16 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
 
   Future<void> _confirmAndSave() async {
     if (_result == null) return;
+    if (!_hasVerifiedEmergency) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "No emergency incident was identified. Report not saved.",
+          ),
+        ),
+      );
+      return;
+    }
 
     setState(() => _saving = true);
 
@@ -226,6 +246,7 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
     final textDark = isDark ? Colors.white : const Color(0xFF0B1B3A);
 
     final textSoft = isDark ? Colors.white70 : const Color(0xFF71829E);
+    final t = AppLocalizations.of(context)!;
 
     const primaryBlue = Color(0xFF2F6FE4);
 
@@ -262,7 +283,7 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
-                            ' Emergency analysis Result',
+                            t.emergencyAnalysisResult,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w800,
@@ -298,7 +319,7 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
                     _ResultCard(result: _result!),
                     const SizedBox(height: 16),
                     _ListCard(
-                      title: 'AI Evidence Detected',
+                      title: t.analysisEvidenceDetected,
                       icon: Icons.check_circle_outline,
                       items: _result!.evidence,
                     ),
@@ -306,13 +327,13 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
                     _SummaryCard(summary: _result!.summary),
                     const SizedBox(height: 16),
                     _ListCard(
-                      title: 'Recommended Responders',
+                      title: t.analysisRecommendedResponders,
                       icon: Icons.local_hospital_outlined,
                       items: _result!.responders,
                     ),
                     const SizedBox(height: 16),
                     _ListCard(
-                      title: 'Suggested Equipment',
+                      title: t.analysisSuggestedEquipment,
                       icon: Icons.medical_services_outlined,
                       items: _result!.equipment,
                     ),
@@ -332,7 +353,11 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
                               )
                             : const Icon(Icons.check_circle_outline),
                         label: Text(
-                          _saving ? 'Saving...' : 'Confirm & Get Help',
+                          _saving
+                              ? t.analysisSaving
+                              : _hasVerifiedEmergency
+                              ? t.analysisConfirmGetHelp
+                              : t.analysisNoEmergencyIdentified,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w800,
@@ -360,7 +385,7 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
                           child: OutlinedButton.icon(
                             onPressed: _saving ? null : _runAnalysis,
                             icon: const Icon(Icons.refresh),
-                            label: const Text('Re-analyze'),
+                            label: Text(t.analysisReanalyze),
                             style: OutlinedButton.styleFrom(
                               foregroundColor: textDark,
                               backgroundColor: cardColor.withOpacity(0.9),
@@ -380,7 +405,7 @@ class _AnalysisResultScreenState extends State<AnalysisResultScreen> {
                                 ? null
                                 : () => Navigator.pop(context),
                             icon: const Icon(Icons.cancel_outlined),
-                            label: const Text('False Alarm'),
+                            label: Text(t.analysisFalseAlarm),
                             style: OutlinedButton.styleFrom(
                               foregroundColor: textSoft,
                               backgroundColor: cardColor.withOpacity(0.9),
@@ -414,6 +439,7 @@ class _LoadingView extends StatelessWidget {
     final textSoft = isDark ? Colors.white70 : const Color(0xFF71829E);
 
     const primaryBlue = Color(0xFF2F6FE4);
+    final t = AppLocalizations.of(context)!;
 
     return Center(
       child: Column(
@@ -422,7 +448,7 @@ class _LoadingView extends StatelessWidget {
           const CircularProgressIndicator(color: primaryBlue),
           const SizedBox(height: 16),
           Text(
-            'Analyzing image with Gemini AI...',
+            t.analysisLoading,
             style: TextStyle(fontWeight: FontWeight.w700, color: textSoft),
           ),
         ],
@@ -445,6 +471,8 @@ class _ResultCard extends StatelessWidget {
     final textDark = isDark ? Colors.white : const Color(0xFF0B1B3A);
 
     final textSoft = isDark ? Colors.white70 : const Color(0xFF71829E);
+
+    final t = AppLocalizations.of(context)!;
 
     final progressBg = isDark
         ? const Color(0xFF334155)
@@ -474,7 +502,7 @@ class _ResultCard extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Emergency Detected',
+                  t.analysisEmergencyDetected,
                   style: TextStyle(
                     fontSize: 19,
                     fontWeight: FontWeight.w900,
@@ -491,9 +519,15 @@ class _ResultCard extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    _MetaLine(label: 'Type', value: result.emergencyType),
+                    _MetaLine(
+                      label: t.analysisType,
+                      value: result.emergencyType,
+                    ),
                     const SizedBox(height: 10),
-                    _MetaLine(label: 'Severity', value: result.severity),
+                    _MetaLine(
+                      label: t.analysisSeverity,
+                      value: result.severity,
+                    ),
                   ],
                 ),
               ),
@@ -522,7 +556,7 @@ class _ResultCard extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Confidence Level',
+                t.analysisConfidenceLevel,
                 style: TextStyle(
                   color: textSoft,
                   fontSize: 15,
@@ -612,10 +646,11 @@ class _ListCard extends StatelessWidget {
     final cardColor = isDark ? const Color(0xFF162033) : Colors.white;
 
     final textDark = isDark ? Colors.white : const Color(0xFF0B1B3A);
+    final t = AppLocalizations.of(context)!;
 
     const primaryBlue = Color(0xFF2F6FE4);
 
-    final safeItems = items.isEmpty ? ['No specific details detected'] : items;
+    final safeItems = items.isEmpty ? [t.analysisNoSpecificDetails] : items;
 
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
@@ -690,6 +725,7 @@ class _SummaryCard extends StatelessWidget {
     final textDark = isDark ? Colors.white : const Color(0xFF0B1B3A);
 
     final textSoft = isDark ? Colors.white70 : Colors.black.withOpacity(0.55);
+    final t = AppLocalizations.of(context)!;
 
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
@@ -701,7 +737,7 @@ class _SummaryCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'AI Incident Summary',
+            t.analysisIncidentSummary,
             style: TextStyle(
               fontSize: 19,
               fontWeight: FontWeight.w900,
@@ -710,7 +746,7 @@ class _SummaryCard extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           Text(
-            summary.isEmpty ? 'No summary generated.' : summary,
+            summary.isEmpty ? t.analysisNoSummary : summary,
             style: TextStyle(
               fontSize: 16,
               height: 1.55,
@@ -726,9 +762,7 @@ class _SummaryCard extends StatelessWidget {
 
 class _ValidationSummaryCard extends StatelessWidget {
   final int validationScore;
-
   final String validationStatus;
-
   final List<String> validationWarnings;
 
   const _ValidationSummaryCard({
@@ -737,21 +771,45 @@ class _ValidationSummaryCard extends StatelessWidget {
     required this.validationWarnings,
   });
 
+  String _statusLabel(AppLocalizations t) {
+    switch (validationStatus) {
+      case "Accepted":
+        return t.validationImageAcceptedTitle;
+      case "Accepted With Warning":
+        return t.validationAcceptedWarningTitle;
+      default:
+        return t.validationImageRejectedTitle;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final cardColor = isDark ? const Color(0xFF162033) : Colors.white;
+    final textDark = isDark ? Colors.white : const Color(0xFF0B1B3A);
+    final textSoft = isDark ? Colors.white70 : const Color(0xFF71829E);
+
     final isAccepted = validationStatus == "Accepted";
-    final needsManualVerification = !isAccepted;
+    final isWarning = validationStatus == "Accepted With Warning";
 
-    final color = needsManualVerification ? Colors.orange : Colors.green;
+    final color = isAccepted
+        ? Colors.green
+        : isWarning
+        ? Colors.orange
+        : Colors.red;
 
-    final icon = needsManualVerification
+    final icon = isAccepted
+        ? Icons.verified
+        : isWarning
         ? Icons.warning_amber_rounded
-        : Icons.verified;
+        : Icons.cancel;
 
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardColor,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: color),
       ),
@@ -761,12 +819,10 @@ class _ValidationSummaryCard extends StatelessWidget {
           Row(
             children: [
               Icon(icon, color: color),
-
               const SizedBox(width: 10),
-
               Expanded(
                 child: Text(
-                  "Emergency Image Validation",
+                  t.emergencyImageValidation,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -779,20 +835,28 @@ class _ValidationSummaryCard extends StatelessWidget {
 
           const SizedBox(height: 18),
 
-          _ValidationRow("Status", validationStatus),
+          _ValidationRow(
+            label: t.validationStatus,
+            value: _statusLabel(t),
+            labelColor: textSoft,
+            valueColor: textDark,
+          ),
 
-          _ValidationRow("Image Quality Score", "$validationScore / 100"),
+          _ValidationRow(
+            label: t.imageQualityScore,
+            value: "$validationScore / 100",
+            labelColor: textSoft,
+            valueColor: textDark,
+          ),
 
           if (validationWarnings.isNotEmpty) ...[
             const SizedBox(height: 15),
-
-            const Divider(),
-
+            Divider(color: isDark ? Colors.white24 : Colors.black12),
             const SizedBox(height: 10),
 
-            const Text(
-              "Warnings",
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Text(
+              t.warnings,
+              style: TextStyle(color: textDark, fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 8),
@@ -801,16 +865,17 @@ class _ValidationSummaryCard extends StatelessWidget {
               (warning) => Padding(
                 padding: const EdgeInsets.only(bottom: 6),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Icon(
                       Icons.warning_amber_rounded,
                       color: Colors.orange,
                       size: 18,
                     ),
-
                     const SizedBox(width: 8),
-
-                    Expanded(child: Text(warning)),
+                    Expanded(
+                      child: Text(warning, style: TextStyle(color: textDark)),
+                    ),
                   ],
                 ),
               ),
@@ -824,10 +889,16 @@ class _ValidationSummaryCard extends StatelessWidget {
 
 class _ValidationRow extends StatelessWidget {
   final String label;
-
   final String value;
+  final Color labelColor;
+  final Color valueColor;
 
-  const _ValidationRow(this.label, this.value);
+  const _ValidationRow({
+    required this.label,
+    required this.value,
+    required this.labelColor,
+    required this.valueColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -839,14 +910,13 @@ class _ValidationRow extends StatelessWidget {
             width: 140,
             child: Text(
               label,
-              style: const TextStyle(fontWeight: FontWeight.w600),
+              style: TextStyle(color: labelColor, fontWeight: FontWeight.w600),
             ),
           ),
-
           Expanded(
             child: Text(
               value,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(color: valueColor, fontWeight: FontWeight.bold),
             ),
           ),
         ],
@@ -872,6 +942,7 @@ class _ErrorView extends StatelessWidget {
     final textSoft = isDark ? Colors.white70 : const Color(0xFF71829E);
 
     const primaryBlue = Color(0xFF2F6FE4);
+    final t = AppLocalizations.of(context)!;
 
     return Center(
       child: Padding(
@@ -892,7 +963,7 @@ class _ErrorView extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                'AI analysis failed',
+                t.analysisFailed,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w900,
@@ -916,7 +987,7 @@ class _ErrorView extends StatelessWidget {
                   backgroundColor: primaryBlue,
                   foregroundColor: Colors.white,
                 ),
-                child: const Text('Try Again'),
+                child: Text(t.analysisTryAgain),
               ),
             ],
           ),

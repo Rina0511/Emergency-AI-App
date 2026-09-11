@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../routes.dart';
+import '../../l10n/app_localizations.dart';
 
 class EmergencyProfileScreen extends StatefulWidget {
   const EmergencyProfileScreen({super.key});
@@ -99,6 +100,7 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
 
   Future<void> _saveProfile() async {
     final user = FirebaseAuth.instance.currentUser;
+    final t = AppLocalizations.of(context)!;
 
     if (user == null) return;
 
@@ -126,7 +128,7 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
 
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(const SnackBar(content: Text("Emergency profile saved")));
+    ).showSnackBar(SnackBar(content: Text(t.profileSaved)));
   }
 
   //--------------------------------------------------
@@ -151,6 +153,9 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
     super.dispose();
   }
 
+  String _bloodGroupLabel(AppLocalizations t, String group) {
+    return group == "Unknown" ? t.profileUnknown : group;
+  }
   //--------------------------------------------------
   // Helper Text Field
   //--------------------------------------------------
@@ -160,13 +165,19 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
     required String hint,
     int maxLines = 1,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return TextField(
       controller: controller,
       maxLines: maxLines,
+      style: TextStyle(color: isDark ? Colors.white : const Color(0xFF0B1B3A)),
       decoration: InputDecoration(
         hintText: hint,
+        hintStyle: TextStyle(
+          color: isDark ? const Color(0xFF9EADBF) : Colors.grey.shade600,
+        ),
         filled: true,
-        fillColor: const Color(0xFFF3F6FA),
+        fillColor: isDark ? const Color(0xFF111C2D) : const Color(0xFFF3F6FA),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide.none,
@@ -188,6 +199,18 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
     final cardColor = isDark ? const Color(0xFF182335) : Colors.white;
 
     final textColor = isDark ? Colors.white : const Color(0xFF0B1B3A);
+    final t = AppLocalizations.of(context)!;
+    final fieldColor = isDark
+        ? const Color(0xFF111C2D)
+        : const Color(0xFFF3F6FA);
+
+    final bannerColor = isDark
+        ? const Color(0xFF3A2025)
+        : const Color(0xFFFFF2F2);
+
+    final bannerBorderColor = isDark
+        ? const Color(0xFF7A3D46)
+        : const Color(0xFFFFCACA);
 
     if (_loading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -213,7 +236,7 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
         ),
 
         title: Text(
-          "Emergency Profile",
+          t.profileTitle,
           style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
         ),
 
@@ -231,9 +254,9 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFF2F2),
+                  color: bannerColor,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: const Color(0xFFFFCACA)),
+                  border: Border.all(color: bannerBorderColor),
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -257,20 +280,25 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
-                            "Medical info shared with responders",
+                            t.profileMedicalInfoTitle,
                             style: TextStyle(
+                              color: textColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
                           ),
 
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
 
                           Text(
-                            "Attached automatically to every SOS report",
-                            style: TextStyle(color: Colors.grey),
+                            t.profileMedicalInfoMessage,
+                            style: TextStyle(
+                              color: isDark
+                                  ? const Color(0xFFB7C3D4)
+                                  : Colors.grey,
+                            ),
                           ),
                         ],
                       ),
@@ -301,7 +329,7 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
                         const SizedBox(width: 10),
 
                         Text(
-                          "Personal",
+                          t.profilePersonal,
                           style: TextStyle(
                             color: textColor,
                             fontWeight: FontWeight.bold,
@@ -313,11 +341,14 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
 
                     const SizedBox(height: 20),
 
-                    _textField(controller: _nameController, hint: "Full Name"),
+                    _textField(
+                      controller: _nameController,
+                      hint: t.profileFullName,
+                    ),
 
                     const SizedBox(height: 16),
 
-                    _textField(controller: _ageController, hint: "Age"),
+                    _textField(controller: _ageController, hint: t.profileAge),
                   ],
                 ),
               ),
@@ -347,7 +378,7 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
                         const SizedBox(width: 10),
 
                         Text(
-                          "Blood Group",
+                          t.profileBloodGroup,
                           style: TextStyle(
                             color: textColor,
                             fontWeight: FontWeight.bold,
@@ -376,18 +407,14 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
                             width: 96,
                             height: 46,
                             decoration: BoxDecoration(
-                              color: selected
-                                  ? Colors.red
-                                  : const Color(0xFFF3F6FA),
+                              color: selected ? Colors.red : fieldColor,
                               borderRadius: BorderRadius.circular(14),
                             ),
                             child: Center(
                               child: Text(
-                                group,
+                                _bloodGroupLabel(t, group),
                                 style: TextStyle(
-                                  color: selected
-                                      ? Colors.white
-                                      : Colors.black87,
+                                  color: selected ? Colors.white : textColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -425,7 +452,7 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
                         const SizedBox(width: 10),
 
                         Text(
-                          "Allergies",
+                          t.profileAllergies,
                           style: TextStyle(
                             color: textColor,
                             fontSize: 18,
@@ -439,7 +466,7 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
 
                     _textField(
                       controller: _allergyController,
-                      hint: "Example: Penicillin, Peanuts",
+                      hint: t.profileAllergiesHint,
                       maxLines: 2,
                     ),
                   ],
@@ -471,7 +498,7 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
                         const SizedBox(width: 10),
 
                         Text(
-                          "Medical Conditions",
+                          t.profileMedicalConditions,
                           style: TextStyle(
                             color: textColor,
                             fontSize: 18,
@@ -485,7 +512,7 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
 
                     _textField(
                       controller: _medicalConditionController,
-                      hint: "Example: Asthma, Diabetes",
+                      hint: t.profileMedicalConditionsHint,
                       maxLines: 3,
                     ),
                   ],
@@ -517,7 +544,7 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
                         const SizedBox(width: 10),
 
                         Text(
-                          "Current Medication",
+                          t.profileCurrentMedication,
                           style: TextStyle(
                             color: textColor,
                             fontSize: 18,
@@ -531,7 +558,7 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
 
                     _textField(
                       controller: _medicationController,
-                      hint: "Example: Ventolin inhaler",
+                      hint: t.profileMedicationHint,
                       maxLines: 3,
                     ),
                   ],
@@ -560,7 +587,7 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
                         const SizedBox(width: 10),
 
                         Text(
-                          "Next of Kin",
+                          t.profileNextOfKin,
                           style: TextStyle(
                             color: textColor,
                             fontSize: 18,
@@ -574,14 +601,14 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
 
                     _textField(
                       controller: _nextOfKinNameController,
-                      hint: "Name (Relationship)",
+                      hint: t.profileKinNameHint,
                     ),
 
                     const SizedBox(height: 16),
 
                     _textField(
                       controller: _nextOfKinPhoneController,
-                      hint: "Phone Number",
+                      hint: t.profilePhoneNumber,
                     ),
                   ],
                 ),
@@ -597,8 +624,8 @@ class _EmergencyProfileScreenState extends State<EmergencyProfileScreen> {
                 child: ElevatedButton.icon(
                   onPressed: _saveProfile,
                   icon: const Icon(Icons.save_outlined),
-                  label: const Text(
-                    "Save Emergency Profile",
+                  label: Text(
+                    t.profileSaveButton,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   style: ElevatedButton.styleFrom(

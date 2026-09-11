@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../routes.dart';
 //import '../common/app_bottom_nav.dart';
+import '../../l10n/app_localizations.dart';
+import 'package:torch_light/torch_light.dart';
 
 class AssistScreen extends StatefulWidget {
   const AssistScreen({super.key});
@@ -26,10 +28,8 @@ class _AssistScreenState extends State<AssistScreen> {
   // TIMER
   //----------------------------------------------------------
 
-  Timer? _timer;
-
-  int _seconds = 0;
-
+  Timer? _incidentTimer;
+  Duration _incidentDuration = Duration.zero;
   bool _running = false;
 
   //----------------------------------------------------------
@@ -39,6 +39,7 @@ class _AssistScreenState extends State<AssistScreen> {
   bool _cprRunning = false;
 
   final int _cprBeat = 110;
+  int _cprBeatCount = 0;
 
   Timer? _beatTimer;
 
@@ -75,38 +76,62 @@ class _AssistScreenState extends State<AssistScreen> {
   bool _drowningExpanded = false;
 
   bool _animalExpanded = false;
+  Future<void> _turnOffFlashlightSilently() async {
+    try {
+      await TorchLight.disableTorch();
+    } catch (_) {}
+  }
 
   //----------------------------------------------------------
   // TIMER FUNCTIONS
   //----------------------------------------------------------
-
   void _startTimer() {
     if (_running) return;
 
-    _running = true;
+    setState(() {
+      _running = true;
+    });
 
-    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+    _incidentTimer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (!mounted) return;
 
       setState(() {
-        _seconds++;
+        _incidentDuration += const Duration(seconds: 1);
       });
     });
   }
 
-  void _stopTimer() {
-    _timer?.cancel();
+  void _pauseTimer() {
+    _incidentTimer?.cancel();
+    _incidentTimer = null;
 
-    _running = false;
+    setState(() {
+      _running = false;
+    });
   }
 
   void _resetTimer() {
-    _timer?.cancel();
+    _incidentTimer?.cancel();
+    _incidentTimer = null;
 
     setState(() {
-      _seconds = 0;
       _running = false;
+      _incidentDuration = Duration.zero;
     });
+  }
+
+  String get timerText {
+    final hours = _incidentDuration.inHours.toString().padLeft(2, '0');
+    final minutes = (_incidentDuration.inMinutes % 60).toString().padLeft(
+      2,
+      '0',
+    );
+    final seconds = (_incidentDuration.inSeconds % 60).toString().padLeft(
+      2,
+      '0',
+    );
+
+    return '$hours:$minutes:$seconds';
   }
 
   //----------------------------------------------------------
@@ -116,6 +141,7 @@ class _AssistScreenState extends State<AssistScreen> {
   void _toggleCPRBeat() {
     if (_cprRunning) {
       _beatTimer?.cancel();
+      _beatTimer = null;
 
       setState(() {
         _cprRunning = false;
@@ -125,16 +151,30 @@ class _AssistScreenState extends State<AssistScreen> {
       return;
     }
 
-    _cprRunning = true;
-
     final interval = Duration(milliseconds: (60000 / _cprBeat).round());
+
+    setState(() {
+      _cprRunning = true;
+    });
 
     _beatTimer = Timer.periodic(interval, (_) {
       if (!mounted) return;
 
       setState(() {
+        _cprBeatCount++;
         _pulse = !_pulse;
       });
+    });
+  }
+
+  void _resetCPRBeat() {
+    _beatTimer?.cancel();
+    _beatTimer = null;
+
+    setState(() {
+      _cprRunning = false;
+      _pulse = false;
+      _cprBeatCount = 0;
     });
   }
 
@@ -142,34 +182,39 @@ class _AssistScreenState extends State<AssistScreen> {
   // SOS FLASHLIGHT
   //----------------------------------------------------------
 
-  void _toggleFlashlight() {
-    setState(() {
-      _flashlightOn = !_flashlightOn;
-    });
+  Future<void> _toggleFlashlight() async {
+    try {
+      final isAvailable = await TorchLight.isTorchAvailable();
 
-    // TODO:
-    // Integrate torch_light package later
-    //
-    // if(_flashlightOn){
-    // TorchLight.enableTorch();
-    // }else{
-    // TorchLight.disableTorch();
-    // }
+      if (!isAvailable) {
+        throw Exception('Torch not available');
+      }
+
+      if (_flashlightOn) {
+        await TorchLight.disableTorch();
+      } else {
+        await TorchLight.enableTorch();
+      }
+
+      if (!mounted) return;
+
+      setState(() {
+        _flashlightOn = !_flashlightOn;
+      });
+    } catch (_) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.flashlightUnavailable),
+        ),
+      );
+    }
   }
 
   //----------------------------------------------------------
   // FORMAT TIMER
   //----------------------------------------------------------
-
-  String get timerText {
-    final h = (_seconds ~/ 3600).toString().padLeft(2, '0');
-
-    final m = ((_seconds % 3600) ~/ 60).toString().padLeft(2, '0');
-
-    final s = (_seconds % 60).toString().padLeft(2, '0');
-
-    return "$h:$m:$s";
-  }
 
   //----------------------------------------------------------
   // LIFECYCLE
@@ -184,9 +229,10 @@ class _AssistScreenState extends State<AssistScreen> {
 
   @override
   void dispose() {
-    _timer?.cancel();
+    _incidentTimer?.cancel();
 
     _beatTimer?.cancel();
+    _turnOffFlashlightSilently();
 
     super.dispose();
   }
@@ -206,6 +252,7 @@ class _AssistScreenState extends State<AssistScreen> {
     final textDark = isDark ? Colors.white : const Color(0xFF0B1B3A);
 
     final textSoft = isDark ? Colors.white70 : const Color(0xFF71829E);
+    final t = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: bg,
@@ -256,7 +303,7 @@ class _AssistScreenState extends State<AssistScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Bystander Assist",
+                          t.bystanderAssist,
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.w900,
@@ -267,7 +314,7 @@ class _AssistScreenState extends State<AssistScreen> {
                         const SizedBox(height: 4),
 
                         Text(
-                          "Offline Emergency Assistance",
+                          t.offlineEmergencyAssistance,
                           style: TextStyle(
                             color: textSoft,
                             fontWeight: FontWeight.w600,
@@ -304,8 +351,8 @@ class _AssistScreenState extends State<AssistScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Offline Mode",
+                          Text(
+                            t.offlineMode,
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
@@ -316,7 +363,7 @@ class _AssistScreenState extends State<AssistScreen> {
                           const SizedBox(height: 6),
 
                           Text(
-                            "Emergency guidance is available without internet connection.",
+                            t.offlineModeDescription,
                             style: TextStyle(color: textSoft, height: 1.4),
                           ),
                         ],
@@ -331,135 +378,217 @@ class _AssistScreenState extends State<AssistScreen> {
               //----------------------------------------------------------
               // QUICK TOOLS
               //----------------------------------------------------------
-              Row(
-                children: [
-                  //======================================================
-                  // TIMER
-                  //======================================================
-                  //======================================================
-                  // INCIDENT TIMER
-                  //======================================================
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(18),
-                      decoration: BoxDecoration(
-                        color: card,
-                        borderRadius: BorderRadius.circular(22),
-                      ),
-                      child: Column(
-                        children: [
-                          const Icon(
-                            Icons.timer_outlined,
-                            color: primaryBlue,
-                            size: 32,
-                          ),
-
-                          const SizedBox(height: 12),
-
-                          Text(
-                            "Incident Timer",
-                            style: TextStyle(
-                              color: textDark,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-
-                          const SizedBox(height: 8),
-
-                          Text(
-                            timerText,
-                            style: const TextStyle(
+              IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(18),
+                        decoration: BoxDecoration(
+                          color: card,
+                          borderRadius: BorderRadius.circular(22),
+                        ),
+                        child: Column(
+                          children: [
+                            const Icon(
+                              Icons.timer_outlined,
                               color: primaryBlue,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w900,
+                              size: 32,
                             ),
-                          ),
-
-                          const SizedBox(height: 14),
-
-                          SizedBox(
-                            width: double.infinity,
-                            child: FilledButton(
-                              onPressed: () {
-                                if (_running) {
-                                  _stopTimer();
-                                } else {
-                                  _startTimer();
-                                }
-                              },
-                              style: FilledButton.styleFrom(
-                                backgroundColor: primaryBlue,
-                                minimumSize: const Size.fromHeight(42),
+                            const SizedBox(height: 12),
+                            Text(
+                              t.incidentTimer,
+                              style: TextStyle(
+                                color: textDark,
+                                fontWeight: FontWeight.bold,
                               ),
-                              child: Text(_running ? "Pause" : "Start"),
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 8),
+                            Text(
+                              timerText,
+                              style: const TextStyle(
+                                color: primaryBlue,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+
+                            const Text(
+                              "HH        MM        SS",
+                              style: TextStyle(
+                                color: Color(0xFF71829E),
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+
+                            const SizedBox(height: 14),
+
+                            SizedBox(
+                              width: double.infinity,
+                              child: FilledButton.icon(
+                                onPressed: _running ? _pauseTimer : _startTimer,
+                                icon: Icon(
+                                  _running
+                                      ? Icons.pause_rounded
+                                      : Icons.play_arrow_rounded,
+                                ),
+                                label: Text(_running ? t.pause : t.start),
+                                style: FilledButton.styleFrom(
+                                  backgroundColor: primaryBlue,
+                                  foregroundColor: Colors.white,
+                                  minimumSize: const Size.fromHeight(48),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 10),
+
+                            SizedBox(
+                              width: double.infinity,
+                              child: OutlinedButton.icon(
+                                onPressed: _resetTimer,
+                                icon: const Icon(Icons.restart_alt_rounded),
+                                label: Text(t.reset),
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: primaryBlue,
+                                  minimumSize: const Size.fromHeight(48),
+                                  side: const BorderSide(
+                                    color: primaryBlue,
+                                    width: 1.5,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-
-                  //======================================================
-                  // CPR METRONOME
-                  //======================================================
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(18),
-                      decoration: BoxDecoration(
-                        color: card,
-                        borderRadius: BorderRadius.circular(22),
-                      ),
-                      child: Column(
-                        children: [
-                          AnimatedContainer(
-                            duration: const Duration(milliseconds: 250),
-                            height: _pulse ? 54 : 42,
-                            width: _pulse ? 54 : 42,
-                            decoration: const BoxDecoration(
-                              color: dangerRed,
-                              shape: BoxShape.circle,
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(18),
+                        decoration: BoxDecoration(
+                          color: card,
+                          borderRadius: BorderRadius.circular(22),
+                        ),
+                        child: Column(
+                          children: [
+                            AnimatedContainer(
+                              duration: const Duration(milliseconds: 250),
+                              height: _pulse ? 54 : 42,
+                              width: _pulse ? 54 : 42,
+                              decoration: const BoxDecoration(
+                                color: dangerRed,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.favorite,
+                                color: Colors.white,
+                              ),
                             ),
-                            child: const Icon(
-                              Icons.favorite,
-                              color: Colors.white,
+
+                            const SizedBox(height: 12),
+
+                            Text(
+                              t.cprBeat,
+                              style: TextStyle(
+                                color: textDark,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
 
-                          const SizedBox(height: 14),
+                            const SizedBox(height: 5),
 
-                          Text(
-                            "CPR Beat",
-                            style: TextStyle(
-                              color: textDark,
-                              fontWeight: FontWeight.bold,
+                            Text(
+                              '$_cprBeat BPM',
+                              style: const TextStyle(
+                                color: dangerRed,
+                                fontWeight: FontWeight.w900,
+                              ),
                             ),
-                          ),
 
-                          const SizedBox(height: 5),
+                            const SizedBox(height: 10),
 
-                          Text(
-                            "$_cprBeat BPM",
-                            style: const TextStyle(
-                              color: dangerRed,
-                              fontWeight: FontWeight.w900,
+                            Text(
+                              '$_cprBeatCount',
+                              style: const TextStyle(
+                                color: dangerRed,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w900,
+                              ),
                             ),
-                          ),
 
-                          const SizedBox(height: 14),
+                            const SizedBox(height: 2),
 
-                          FilledButton(
-                            onPressed: _toggleCPRBeat,
-                            style: FilledButton.styleFrom(
-                              backgroundColor: dangerRed,
-                              minimumSize: const Size.fromHeight(42),
+                            Text(
+                              t.cprBeatCount,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: textSoft,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                            child: Text(_cprRunning ? "Stop" : "Start"),
-                          ),
-                        ],
+
+                            const SizedBox(height: 14),
+
+                            SizedBox(
+                              width: double.infinity,
+                              child: FilledButton.icon(
+                                onPressed: _toggleCPRBeat,
+                                icon: Icon(
+                                  _cprRunning
+                                      ? Icons.stop_rounded
+                                      : Icons.play_arrow_rounded,
+                                ),
+                                label: Text(_cprRunning ? t.stop : t.start),
+                                style: FilledButton.styleFrom(
+                                  backgroundColor: dangerRed,
+                                  foregroundColor: Colors.white,
+                                  minimumSize: const Size.fromHeight(48),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 10),
+
+                            SizedBox(
+                              width: double.infinity,
+                              child: OutlinedButton.icon(
+                                onPressed: _resetCPRBeat,
+                                icon: const Icon(Icons.restart_alt_rounded),
+                                label: Text(t.reset),
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: dangerRed,
+                                  minimumSize: const Size.fromHeight(48),
+                                  side: const BorderSide(
+                                    color: dangerRed,
+                                    width: 1.5,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
 
               const SizedBox(height: 18),
@@ -496,7 +625,7 @@ class _AssistScreenState extends State<AssistScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "SOS Flashlight",
+                            t.sosFlashlight,
                             style: TextStyle(
                               color: textDark,
                               fontWeight: FontWeight.bold,
@@ -507,7 +636,7 @@ class _AssistScreenState extends State<AssistScreen> {
                           const SizedBox(height: 6),
 
                           Text(
-                            "Use your phone flashlight as an emergency signal.",
+                            t.sosFlashlightDescription,
                             style: TextStyle(color: textSoft, height: 1.4),
                           ),
                         ],
@@ -531,7 +660,7 @@ class _AssistScreenState extends State<AssistScreen> {
               // SCENE MANAGEMENT
               //----------------------------------------------------------
               Text(
-                "Take Charge of the Scene",
+                t.takeChargeScene,
                 style: TextStyle(
                   fontSize: 21,
                   fontWeight: FontWeight.w900,
@@ -553,9 +682,8 @@ class _AssistScreenState extends State<AssistScreen> {
                       number: "1",
                       icon: Icons.self_improvement_rounded,
                       color: primaryBlue,
-                      title: "Stay Calm",
-                      subtitle:
-                          "Remain calm and assess the emergency before taking action.",
+                      title: t.stayCalm,
+                      subtitle: t.stayCalmDescription,
                       isLast: false,
                     ),
 
@@ -563,9 +691,8 @@ class _AssistScreenState extends State<AssistScreen> {
                       number: "2",
                       icon: Icons.security_rounded,
                       color: successGreen,
-                      title: "Ensure Scene Safety",
-                      subtitle:
-                          "Check for fire, smoke, traffic, electricity, chemicals or other hazards.",
+                      title: t.ensureSceneSafety,
+                      subtitle: t.ensureSceneSafetyDescription,
                       isLast: false,
                     ),
 
@@ -573,9 +700,8 @@ class _AssistScreenState extends State<AssistScreen> {
                       number: "3",
                       icon: Icons.shield_rounded,
                       color: warningOrange,
-                      title: "Protect Yourself",
-                      subtitle:
-                          "Never become another victim. Enter only if it is safe.",
+                      title: t.protectYourself,
+                      subtitle: t.protectYourselfDescription,
                       isLast: false,
                     ),
 
@@ -583,9 +709,8 @@ class _AssistScreenState extends State<AssistScreen> {
                       number: "4",
                       icon: Icons.call_rounded,
                       color: dangerRed,
-                      title: "Call 999",
-                      subtitle:
-                          "Contact emergency services immediately if the situation is life-threatening.",
+                      title: t.seekEmergencyHelp,
+                      subtitle: t.seekEmergencyHelpDescription,
                       isLast: false,
                     ),
 
@@ -593,9 +718,8 @@ class _AssistScreenState extends State<AssistScreen> {
                       number: "5",
                       icon: Icons.health_and_safety_rounded,
                       color: successGreen,
-                      title: "Give First Aid",
-                      subtitle:
-                          "Provide first aid only if you know how and it is safe.",
+                      title: t.giveFirstAid,
+                      subtitle: t.giveFirstAidDescription,
                       isLast: false,
                     ),
 
@@ -603,9 +727,8 @@ class _AssistScreenState extends State<AssistScreen> {
                       number: "6",
                       icon: Icons.local_hospital_rounded,
                       color: primaryBlue,
-                      title: "Wait for Responders",
-                      subtitle:
-                          "Continue monitoring the victim until professional responders arrive.",
+                      title: t.waitForResponders,
+                      subtitle: t.waitForRespondersDescription,
                       isLast: true,
                     ),
                   ],
@@ -615,7 +738,7 @@ class _AssistScreenState extends State<AssistScreen> {
               const SizedBox(height: 26),
 
               Text(
-                "Emergency First Aid Guides",
+                t.emergencyFirstAidGuides,
                 style: TextStyle(
                   fontSize: 21,
                   fontWeight: FontWeight.w900,
@@ -629,7 +752,7 @@ class _AssistScreenState extends State<AssistScreen> {
               // CPR
               //----------------------------------------------------------
               _FirstAidCard(
-                title: "CPR — Not Breathing",
+                title: t.cprNotBreathing,
                 icon: Icons.favorite_outline_rounded,
                 iconColor: dangerRed,
                 expanded: _cprExpanded,
@@ -638,42 +761,14 @@ class _AssistScreenState extends State<AssistScreen> {
                     _cprExpanded = !_cprExpanded;
                   });
                 },
-                children: const [
-                  _FirstAidStep(
-                    number: 1,
-                    text: "Check response — tap shoulders, shout loudly",
-                  ),
-
-                  _FirstAidStep(
-                    number: 2,
-                    text: "Ask someone to call 999 and get an AED",
-                  ),
-
-                  _FirstAidStep(
-                    number: 3,
-                    text:
-                        "Place heel of hand on centre of the chest, other hand on top",
-                  ),
-
-                  _FirstAidStep(
-                    number: 4,
-                    text:
-                        "Push hard and fast, 5–6 cm deep, 100–120 compressions per minute",
-                  ),
-
-                  _FirstAidStep(
-                    number: 5,
-                    text:
-                        "Do not stop until the victim moves or professional help arrives",
-                  ),
-
-                  SizedBox(height: 16),
-
-                  _InfoWarning(
-                    text:
-                        "Only perform CPR if the victim is unresponsive and not breathing normally.",
-                    color: dangerRed,
-                  ),
+                children: [
+                  _FirstAidStep(number: 1, text: t.cprStep1),
+                  _FirstAidStep(number: 2, text: t.cprStep2),
+                  _FirstAidStep(number: 3, text: t.cprStep3),
+                  _FirstAidStep(number: 4, text: t.cprStep4),
+                  _FirstAidStep(number: 5, text: t.cprStep5),
+                  const SizedBox(height: 16),
+                  _InfoWarning(text: t.cprWarning, color: dangerRed),
                 ],
               ),
 
@@ -683,7 +778,7 @@ class _AssistScreenState extends State<AssistScreen> {
               // SEVERE BLEEDING
               //----------------------------------------------------------
               _FirstAidCard(
-                title: "Severe Bleeding",
+                title: t.severeBleeding,
                 icon: Icons.bloodtype_rounded,
                 iconColor: dangerRed,
                 expanded: _bleedingExpanded,
@@ -692,44 +787,14 @@ class _AssistScreenState extends State<AssistScreen> {
                     _bleedingExpanded = !_bleedingExpanded;
                   });
                 },
-                children: const [
-                  _FirstAidStep(
-                    number: 1,
-                    text:
-                        "Apply firm direct pressure to the wound immediately using a clean cloth, sterile dressing or your hand if nothing else is available.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 2,
-                    text:
-                        "Keep continuous pressure on the wound. Do not repeatedly remove the dressing to check the bleeding.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 3,
-                    text:
-                        "If blood soaks through, place another dressing on top and continue applying pressure.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 4,
-                    text:
-                        "Raise the injured arm or leg above the level of the heart if there is no suspected fracture.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 5,
-                    text:
-                        "Call 999 immediately if bleeding cannot be controlled or is life-threatening.",
-                  ),
-
-                  SizedBox(height: 16),
-
-                  _InfoWarning(
-                    text:
-                        "Never remove objects deeply embedded in a wound. Apply pressure around the object and wait for emergency responders.",
-                    color: dangerRed,
-                  ),
+                children: [
+                  _FirstAidStep(number: 1, text: t.bleedingStep1),
+                  _FirstAidStep(number: 2, text: t.bleedingStep2),
+                  _FirstAidStep(number: 3, text: t.bleedingStep3),
+                  _FirstAidStep(number: 4, text: t.bleedingStep4),
+                  _FirstAidStep(number: 5, text: t.bleedingStep5),
+                  const SizedBox(height: 16),
+                  _InfoWarning(text: t.bleedingWarning, color: dangerRed),
                 ],
               ),
 
@@ -739,7 +804,7 @@ class _AssistScreenState extends State<AssistScreen> {
               // CHOKING
               //----------------------------------------------------------
               _FirstAidCard(
-                title: "Choking",
+                title: t.choking,
                 icon: Icons.air_rounded,
                 iconColor: warningOrange,
                 expanded: _chokingExpanded,
@@ -748,44 +813,14 @@ class _AssistScreenState extends State<AssistScreen> {
                     _chokingExpanded = !_chokingExpanded;
                   });
                 },
-                children: const [
-                  _FirstAidStep(
-                    number: 1,
-                    text:
-                        "Ask the victim if they are choking. If they can cough or speak, encourage them to keep coughing.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 2,
-                    text:
-                        "If they cannot cough, speak or breathe, stand slightly behind them and give up to 5 firm back blows between the shoulder blades.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 3,
-                    text:
-                        "If the object does not come out, give up to 5 abdominal thrusts (Heimlich manoeuvre) for adults and children over 1 year old.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 4,
-                    text:
-                        "Continue alternating 5 back blows and 5 abdominal thrusts until the blockage is removed or the victim becomes unconscious.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 5,
-                    text:
-                        "If the victim becomes unconscious, call 999 immediately and begin CPR if they are not breathing normally.",
-                  ),
-
-                  SizedBox(height: 16),
-
-                  _InfoWarning(
-                    text:
-                        "Do NOT perform abdominal thrusts on infants under 1 year old or pregnant individuals. Use the appropriate first aid technique instead.",
-                    color: warningOrange,
-                  ),
+                children: [
+                  _FirstAidStep(number: 1, text: t.chokingStep1),
+                  _FirstAidStep(number: 2, text: t.chokingStep2),
+                  _FirstAidStep(number: 3, text: t.chokingStep3),
+                  _FirstAidStep(number: 4, text: t.chokingStep4),
+                  _FirstAidStep(number: 5, text: t.chokingStep5),
+                  const SizedBox(height: 16),
+                  _InfoWarning(text: t.chokingWarning, color: warningOrange),
                 ],
               ),
 
@@ -795,7 +830,7 @@ class _AssistScreenState extends State<AssistScreen> {
               // BURNS
               //----------------------------------------------------------
               _FirstAidCard(
-                title: "Burns",
+                title: t.burns,
                 icon: Icons.local_fire_department_rounded,
                 iconColor: warningOrange,
                 expanded: _burnExpanded,
@@ -804,44 +839,14 @@ class _AssistScreenState extends State<AssistScreen> {
                     _burnExpanded = !_burnExpanded;
                   });
                 },
-                children: const [
-                  _FirstAidStep(
-                    number: 1,
-                    text:
-                        "Move the victim away from the heat source if it is safe to do so.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 2,
-                    text:
-                        "Cool the burned area under cool running water for at least 20 minutes.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 3,
-                    text:
-                        "Remove rings, watches and tight clothing before swelling begins, but do not remove anything stuck to the burn.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 4,
-                    text:
-                        "Cover the burn with a sterile non-stick dressing or clean plastic wrap.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 5,
-                    text:
-                        "Seek emergency medical care for deep, chemical, electrical or large burns.",
-                  ),
-
-                  SizedBox(height: 16),
-
-                  _InfoWarning(
-                    text:
-                        "Do NOT apply toothpaste, butter, oils, creams or ice directly onto a burn.",
-                    color: warningOrange,
-                  ),
+                children: [
+                  _FirstAidStep(number: 1, text: t.burnsStep1),
+                  _FirstAidStep(number: 2, text: t.burnsStep2),
+                  _FirstAidStep(number: 3, text: t.burnsStep3),
+                  _FirstAidStep(number: 4, text: t.burnsStep4),
+                  _FirstAidStep(number: 5, text: t.burnsStep5),
+                  const SizedBox(height: 16),
+                  _InfoWarning(text: t.burnsWarning, color: warningOrange),
                 ],
               ),
 
@@ -851,7 +856,7 @@ class _AssistScreenState extends State<AssistScreen> {
               // FRACTURE
               //----------------------------------------------------------
               _FirstAidCard(
-                title: "Fracture / Spine Injury",
+                title: t.fractureSpineInjury,
                 icon: Icons.accessibility_new_rounded,
                 iconColor: primaryBlue,
                 expanded: _fractureExpanded,
@@ -860,44 +865,14 @@ class _AssistScreenState extends State<AssistScreen> {
                     _fractureExpanded = !_fractureExpanded;
                   });
                 },
-                children: const [
-                  _FirstAidStep(
-                    number: 1,
-                    text:
-                        "Tell the victim to remain still and avoid moving the injured body part.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 2,
-                    text:
-                        "Support the injured limb using towels, clothing or a splint if available.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 3,
-                    text:
-                        "Apply a wrapped ice pack to reduce swelling. Never place ice directly on the skin.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 4,
-                    text:
-                        "If a spinal injury is suspected, keep the head, neck and back aligned. Do not move the victim unless there is immediate danger.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 5,
-                    text:
-                        "Call 999 if there is severe pain, deformity, heavy bleeding or suspected spinal injury.",
-                  ),
-
-                  SizedBox(height: 16),
-
-                  _InfoWarning(
-                    text:
-                        "Do NOT attempt to straighten broken bones or move someone with a suspected spinal injury.",
-                    color: primaryBlue,
-                  ),
+                children: [
+                  _FirstAidStep(number: 1, text: t.fractureStep1),
+                  _FirstAidStep(number: 2, text: t.fractureStep2),
+                  _FirstAidStep(number: 3, text: t.fractureStep3),
+                  _FirstAidStep(number: 4, text: t.fractureStep4),
+                  _FirstAidStep(number: 5, text: t.fractureStep5),
+                  const SizedBox(height: 16),
+                  _InfoWarning(text: t.fractureWarning, color: dangerRed),
                 ],
               ),
 
@@ -907,7 +882,7 @@ class _AssistScreenState extends State<AssistScreen> {
               // SHOCK
               //----------------------------------------------------------
               _FirstAidCard(
-                title: "Shock / Unconscious but Breathing",
+                title: t.shockUnconsciousBreathing,
                 icon: Icons.monitor_heart_rounded,
                 iconColor: successGreen,
                 expanded: _shockExpanded,
@@ -916,44 +891,14 @@ class _AssistScreenState extends State<AssistScreen> {
                     _shockExpanded = !_shockExpanded;
                   });
                 },
-                children: const [
-                  _FirstAidStep(
-                    number: 1,
-                    text:
-                        "Lay the victim flat on their back unless an injury prevents it.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 2,
-                    text:
-                        "Raise the legs about 30 cm if there are no head, spine or leg injuries.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 3,
-                    text:
-                        "Loosen tight clothing and keep the victim warm using a blanket or jacket.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 4,
-                    text:
-                        "If unconscious but breathing normally, place the victim into the recovery position.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 5,
-                    text:
-                        "Monitor breathing continuously until emergency responders arrive.",
-                  ),
-
-                  SizedBox(height: 16),
-
-                  _InfoWarning(
-                    text:
-                        "Do NOT give food, drinks or medication to an unconscious person.",
-                    color: successGreen,
-                  ),
+                children: [
+                  _FirstAidStep(number: 1, text: t.shockStep1),
+                  _FirstAidStep(number: 2, text: t.shockStep2),
+                  _FirstAidStep(number: 3, text: t.shockStep3),
+                  _FirstAidStep(number: 4, text: t.shockStep4),
+                  _FirstAidStep(number: 5, text: t.shockStep5),
+                  const SizedBox(height: 16),
+                  _InfoWarning(text: t.shockWarning, color: warningOrange),
                 ],
               ),
 
@@ -963,7 +908,7 @@ class _AssistScreenState extends State<AssistScreen> {
               // POISONING
               //----------------------------------------------------------
               _FirstAidCard(
-                title: "Poisoning",
+                title: t.poisoning,
                 icon: Icons.medication_liquid_rounded,
                 iconColor: warningOrange,
                 expanded: _poisonExpanded,
@@ -972,44 +917,14 @@ class _AssistScreenState extends State<AssistScreen> {
                     _poisonExpanded = !_poisonExpanded;
                   });
                 },
-                children: const [
-                  _FirstAidStep(
-                    number: 1,
-                    text:
-                        "Move the victim away from the poisonous substance if it is safe.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 2,
-                    text:
-                        "Identify the poison if possible and keep the container for medical personnel.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 3,
-                    text:
-                        "If poison is on the skin or eyes, rinse continuously with clean water.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 4,
-                    text:
-                        "Call 999 immediately if the victim is unconscious, has difficulty breathing or has seizures.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 5,
-                    text:
-                        "Follow instructions from emergency responders while waiting for help.",
-                  ),
-
-                  SizedBox(height: 16),
-
-                  _InfoWarning(
-                    text:
-                        "Do NOT force the victim to vomit unless instructed by medical professionals.",
-                    color: warningOrange,
-                  ),
+                children: [
+                  _FirstAidStep(number: 1, text: t.poisoningStep1),
+                  _FirstAidStep(number: 2, text: t.poisoningStep2),
+                  _FirstAidStep(number: 3, text: t.poisoningStep3),
+                  _FirstAidStep(number: 4, text: t.poisoningStep4),
+                  _FirstAidStep(number: 5, text: t.poisoningStep5),
+                  const SizedBox(height: 16),
+                  _InfoWarning(text: t.poisoningWarning, color: warningOrange),
                 ],
               ),
 
@@ -1019,7 +934,7 @@ class _AssistScreenState extends State<AssistScreen> {
               // ELECTRIC SHOCK
               //----------------------------------------------------------
               _FirstAidCard(
-                title: "Electric Shock",
+                title: t.electricShock,
                 icon: Icons.electric_bolt_rounded,
                 iconColor: warningOrange,
                 expanded: _electricExpanded,
@@ -1028,44 +943,14 @@ class _AssistScreenState extends State<AssistScreen> {
                     _electricExpanded = !_electricExpanded;
                   });
                 },
-                children: const [
-                  _FirstAidStep(
-                    number: 1,
-                    text:
-                        "Switch off the electricity source before touching the victim.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 2,
-                    text:
-                        "If you cannot switch it off, use a dry wooden or plastic object to separate the victim from the source.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 3,
-                    text:
-                        "Call 999 immediately even if the victim appears to be well.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 4,
-                    text:
-                        "Check breathing and begin CPR if the victim is not breathing normally.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 5,
-                    text:
-                        "Cover any burns with a sterile dressing while waiting for help.",
-                  ),
-
-                  SizedBox(height: 16),
-
-                  _InfoWarning(
-                    text:
-                        "Never touch a victim while they are still in contact with electricity.",
-                    color: warningOrange,
-                  ),
+                children: [
+                  _FirstAidStep(number: 1, text: t.electricStep1),
+                  _FirstAidStep(number: 2, text: t.electricStep2),
+                  _FirstAidStep(number: 3, text: t.electricStep3),
+                  _FirstAidStep(number: 4, text: t.electricStep4),
+                  _FirstAidStep(number: 5, text: t.electricStep5),
+                  const SizedBox(height: 16),
+                  _InfoWarning(text: t.electricWarning, color: dangerRed),
                 ],
               ),
 
@@ -1075,7 +960,7 @@ class _AssistScreenState extends State<AssistScreen> {
               // HEAT STROKE
               //----------------------------------------------------------
               _FirstAidCard(
-                title: "Heat Stroke",
+                title: t.heatStroke,
                 icon: Icons.wb_sunny_rounded,
                 iconColor: dangerRed,
                 expanded: _heatExpanded,
@@ -1084,43 +969,14 @@ class _AssistScreenState extends State<AssistScreen> {
                     _heatExpanded = !_heatExpanded;
                   });
                 },
-                children: const [
-                  _FirstAidStep(
-                    number: 1,
-                    text:
-                        "Move the victim to a cool or shaded area immediately.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 2,
-                    text:
-                        "Remove excess clothing and cool the body using wet towels or cool water.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 3,
-                    text: "Fan the victim to help reduce body temperature.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 4,
-                    text:
-                        "If the victim is conscious, offer cool drinking water slowly.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 5,
-                    text:
-                        "Call 999 if the victim becomes confused, collapses or loses consciousness.",
-                  ),
-
-                  SizedBox(height: 16),
-
-                  _InfoWarning(
-                    text:
-                        "Heat stroke is a medical emergency. Rapid cooling is essential.",
-                    color: dangerRed,
-                  ),
+                children: [
+                  _FirstAidStep(number: 1, text: t.heatStep1),
+                  _FirstAidStep(number: 2, text: t.heatStep2),
+                  _FirstAidStep(number: 3, text: t.heatStep3),
+                  _FirstAidStep(number: 4, text: t.heatStep4),
+                  _FirstAidStep(number: 5, text: t.heatStep5),
+                  const SizedBox(height: 16),
+                  _InfoWarning(text: t.heatWarning, color: dangerRed),
                 ],
               ),
 
@@ -1130,7 +986,7 @@ class _AssistScreenState extends State<AssistScreen> {
               // DROWNING
               //----------------------------------------------------------
               _FirstAidCard(
-                title: "Drowning",
+                title: t.drowning,
                 icon: Icons.pool_rounded,
                 iconColor: primaryBlue,
                 expanded: _drowningExpanded,
@@ -1139,40 +995,14 @@ class _AssistScreenState extends State<AssistScreen> {
                     _drowningExpanded = !_drowningExpanded;
                   });
                 },
-                children: const [
-                  _FirstAidStep(
-                    number: 1,
-                    text:
-                        "Remove the victim from the water only if it is safe.",
-                  ),
-
-                  _FirstAidStep(number: 2, text: "Call 999 immediately."),
-
-                  _FirstAidStep(
-                    number: 3,
-                    text:
-                        "Check breathing. Begin CPR if the victim is not breathing normally.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 4,
-                    text:
-                        "Keep the victim warm with a blanket or dry clothing.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 5,
-                    text:
-                        "Continue monitoring until emergency responders arrive.",
-                  ),
-
-                  SizedBox(height: 16),
-
-                  _InfoWarning(
-                    text:
-                        "Do NOT attempt to remove water from the lungs before starting CPR.",
-                    color: primaryBlue,
-                  ),
+                children: [
+                  _FirstAidStep(number: 1, text: t.drowningStep1),
+                  _FirstAidStep(number: 2, text: t.drowningStep2),
+                  _FirstAidStep(number: 3, text: t.drowningStep3),
+                  _FirstAidStep(number: 4, text: t.drowningStep4),
+                  _FirstAidStep(number: 5, text: t.drowningStep5),
+                  const SizedBox(height: 16),
+                  _InfoWarning(text: t.drowningWarning, color: primaryBlue),
                 ],
               ),
 
@@ -1182,7 +1012,7 @@ class _AssistScreenState extends State<AssistScreen> {
               // ANIMAL BITE
               //----------------------------------------------------------
               _FirstAidCard(
-                title: "Animal Bite",
+                title: t.animalBite,
                 icon: Icons.pets_rounded,
                 iconColor: successGreen,
                 expanded: _animalExpanded,
@@ -1191,43 +1021,14 @@ class _AssistScreenState extends State<AssistScreen> {
                     _animalExpanded = !_animalExpanded;
                   });
                 },
-                children: const [
-                  _FirstAidStep(
-                    number: 1,
-                    text:
-                        "Wash the wound thoroughly with soap and clean running water for several minutes.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 2,
-                    text:
-                        "Control bleeding by applying gentle pressure with a clean dressing.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 3,
-                    text: "Cover the wound using a sterile bandage.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 4,
-                    text:
-                        "Seek medical attention for deep wounds, wild animal bites or possible rabies exposure.",
-                  ),
-
-                  _FirstAidStep(
-                    number: 5,
-                    text:
-                        "Monitor the victim for signs of infection while waiting for treatment.",
-                  ),
-
-                  SizedBox(height: 16),
-
-                  _InfoWarning(
-                    text:
-                        "Animal bites can lead to serious infection. Medical assessment is recommended.",
-                    color: successGreen,
-                  ),
+                children: [
+                  _FirstAidStep(number: 1, text: t.animalBiteStep1),
+                  _FirstAidStep(number: 2, text: t.animalBiteStep2),
+                  _FirstAidStep(number: 3, text: t.animalBiteStep3),
+                  _FirstAidStep(number: 4, text: t.animalBiteStep4),
+                  _FirstAidStep(number: 5, text: t.animalBiteStep5),
+                  const SizedBox(height: 16),
+                  _InfoWarning(text: t.animalBiteWarning, color: successGreen),
                 ],
               ),
 
@@ -1243,7 +1044,7 @@ class _AssistScreenState extends State<AssistScreen> {
                     Navigator.pushNamed(context, AppRoutes.history);
                   },
                   icon: const Icon(Icons.history_rounded),
-                  label: const Text("View Emergency History"),
+                  label: Text(t.viewEmergencyHistory),
                   style: FilledButton.styleFrom(
                     backgroundColor: primaryBlue,
                     minimumSize: const Size.fromHeight(58),
@@ -1617,16 +1418,6 @@ class _SceneTimelineStep extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                // Connecting line
-                if (!isLast)
-                  Expanded(
-                    child: Container(
-                      width: 2,
-                      margin: const EdgeInsets.symmetric(vertical: 6),
-                      color: color.withValues(alpha: 0.20),
-                    ),
-                  ),
               ],
             ),
           ),

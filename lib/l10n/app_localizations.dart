@@ -2392,6 +2392,1692 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No reports yet'**
   String get noReportsYet;
+
+  /// No description provided for @greeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi, {name}'**
+  String greeting(String name);
+
+  /// No description provided for @sos.
+  ///
+  /// In en, this message translates to:
+  /// **'SOS'**
+  String get sos;
+
+  /// No description provided for @startEmergencyReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to start an emergency report'**
+  String get startEmergencyReport;
+
+  /// No description provided for @manualReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Report Emergency Manually'**
+  String get manualReport;
+
+  /// No description provided for @manualReportDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an emergency report without AI analysis when needed.'**
+  String get manualReportDescription;
+
+  /// No description provided for @manualEmergencyReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual Emergency Report'**
+  String get manualEmergencyReport;
+
+  /// No description provided for @incidentPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Incident Photo'**
+  String get incidentPhoto;
+
+  /// No description provided for @noImageSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'No Image Selected'**
+  String get noImageSelected;
+
+  /// No description provided for @chooseImageFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo or choose one from your gallery.'**
+  String get chooseImageFromGallery;
+
+  /// No description provided for @camera.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get camera;
+
+  /// No description provided for @validating.
+  ///
+  /// In en, this message translates to:
+  /// **'Validating...'**
+  String get validating;
+
+  /// No description provided for @emergencyImageValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Image Validation'**
+  String get emergencyImageValidation;
+
+  /// No description provided for @warnings.
+  ///
+  /// In en, this message translates to:
+  /// **'Warnings'**
+  String get warnings;
+
+  /// No description provided for @emergencyDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Details'**
+  String get emergencyDetails;
+
+  /// No description provided for @emergencyType.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Type'**
+  String get emergencyType;
+
+  /// No description provided for @peopleInvolved.
+  ///
+  /// In en, this message translates to:
+  /// **'People Involved'**
+  String get peopleInvolved;
+
+  /// No description provided for @victimCondition.
+  ///
+  /// In en, this message translates to:
+  /// **'Victim Condition'**
+  String get victimCondition;
+
+  /// No description provided for @dangerPresent.
+  ///
+  /// In en, this message translates to:
+  /// **'Danger Present'**
+  String get dangerPresent;
+
+  /// No description provided for @emergencyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Description'**
+  String get emergencyDescription;
+
+  /// No description provided for @emergencyDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Briefly describe what happened...'**
+  String get emergencyDescriptionHint;
+
+  /// No description provided for @includeLiveLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Include Live Location'**
+  String get includeLiveLocation;
+
+  /// No description provided for @continueManualGuidance.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to Manual Guidance'**
+  String get continueManualGuidance;
+
+  /// No description provided for @flood.
+  ///
+  /// In en, this message translates to:
+  /// **'Flood'**
+  String get flood;
+
+  /// No description provided for @buildingCollapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Building Collapse'**
+  String get buildingCollapse;
+
+  /// No description provided for @chemicalSpill.
+  ///
+  /// In en, this message translates to:
+  /// **'Chemical Spill'**
+  String get chemicalSpill;
+
+  /// No description provided for @animalRescue.
+  ///
+  /// In en, this message translates to:
+  /// **'Animal Rescue'**
+  String get animalRescue;
+
+  /// No description provided for @other.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get other;
+
+  /// No description provided for @conscious.
+  ///
+  /// In en, this message translates to:
+  /// **'Conscious'**
+  String get conscious;
+
+  /// No description provided for @unconscious.
+  ///
+  /// In en, this message translates to:
+  /// **'Unconscious'**
+  String get unconscious;
+
+  /// No description provided for @bleeding.
+  ///
+  /// In en, this message translates to:
+  /// **'Bleeding'**
+  String get bleeding;
+
+  /// No description provided for @trapped.
+  ///
+  /// In en, this message translates to:
+  /// **'Trapped'**
+  String get trapped;
+
+  /// No description provided for @unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknown;
+
+  /// No description provided for @smoke.
+  ///
+  /// In en, this message translates to:
+  /// **'Smoke'**
+  String get smoke;
+
+  /// No description provided for @fuelLeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel Leak'**
+  String get fuelLeak;
+
+  /// No description provided for @traffic.
+  ///
+  /// In en, this message translates to:
+  /// **'Traffic'**
+  String get traffic;
+
+  /// No description provided for @none.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get none;
+
+  /// No description provided for @imageQualityScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Image Quality Score'**
+  String get imageQualityScore;
+
+  /// No description provided for @incidentSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Incident Summary'**
+  String get incidentSummary;
+
+  /// No description provided for @included.
+  ///
+  /// In en, this message translates to:
+  /// **'Included'**
+  String get included;
+
+  /// No description provided for @notIncluded.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Included'**
+  String get notIncluded;
+
+  /// No description provided for @validationStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Validation Status'**
+  String get validationStatus;
+
+  /// No description provided for @validationScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Validation Score'**
+  String get validationScore;
+
+  /// No description provided for @validationResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Validation Result'**
+  String get validationResult;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @noAdditionalDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'No additional description.'**
+  String get noAdditionalDescription;
+
+  /// No description provided for @recommendedActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended Actions'**
+  String get recommendedActions;
+
+  /// No description provided for @viewReportStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'View Report Status'**
+  String get viewReportStatus;
+
+  /// No description provided for @someoneNeedsHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone Needs Help'**
+  String get someoneNeedsHelp;
+
+  /// No description provided for @otherEmergency.
+  ///
+  /// In en, this message translates to:
+  /// **'Other Emergency'**
+  String get otherEmergency;
+
+  /// No description provided for @continueToAiAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to AI Analysis'**
+  String get continueToAiAnalysis;
+
+  /// No description provided for @validateAndAnalyze.
+  ///
+  /// In en, this message translates to:
+  /// **'Validate & Analyze'**
+  String get validateAndAnalyze;
+
+  /// No description provided for @bystanderAssist.
+  ///
+  /// In en, this message translates to:
+  /// **'Bystander Assist'**
+  String get bystanderAssist;
+
+  /// No description provided for @offlineEmergencyAssistance.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline Emergency Assistance'**
+  String get offlineEmergencyAssistance;
+
+  /// No description provided for @offlineMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline Mode'**
+  String get offlineMode;
+
+  /// No description provided for @offlineModeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency guidance is available without internet connection.'**
+  String get offlineModeDescription;
+
+  /// No description provided for @incidentTimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Incident Timer'**
+  String get incidentTimer;
+
+  /// No description provided for @pause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get pause;
+
+  /// No description provided for @start.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get start;
+
+  /// No description provided for @reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
+
+  /// No description provided for @cprBeat.
+  ///
+  /// In en, this message translates to:
+  /// **'CPR Beat'**
+  String get cprBeat;
+
+  /// No description provided for @stop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get stop;
+
+  /// No description provided for @sosFlashlight.
+  ///
+  /// In en, this message translates to:
+  /// **'SOS Flashlight'**
+  String get sosFlashlight;
+
+  /// No description provided for @sosFlashlightDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your phone flashlight as an emergency signal.'**
+  String get sosFlashlightDescription;
+
+  /// No description provided for @takeChargeScene.
+  ///
+  /// In en, this message translates to:
+  /// **'Take Charge of the Scene'**
+  String get takeChargeScene;
+
+  /// No description provided for @viewEmergencyHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'View Emergency History'**
+  String get viewEmergencyHistory;
+
+  /// No description provided for @flashlightUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Flashlight is unavailable. Close the camera and try again.'**
+  String get flashlightUnavailable;
+
+  /// No description provided for @stayCalmDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Remain calm and assess the emergency before taking action.'**
+  String get stayCalmDescription;
+
+  /// No description provided for @stayCalmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay Calm'**
+  String get stayCalmTitle;
+
+  /// No description provided for @ensureSceneSafety.
+  ///
+  /// In en, this message translates to:
+  /// **'Ensure Scene Safety'**
+  String get ensureSceneSafety;
+
+  /// No description provided for @ensureSceneSafetyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Check for fire, smoke, traffic, electricity, chemicals or other hazards.'**
+  String get ensureSceneSafetyDescription;
+
+  /// No description provided for @protectYourself.
+  ///
+  /// In en, this message translates to:
+  /// **'Protect Yourself'**
+  String get protectYourself;
+
+  /// No description provided for @protectYourselfDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Never become another victim. Enter only if it is safe.'**
+  String get protectYourselfDescription;
+
+  /// No description provided for @seekEmergencyHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Seek Emergency Help'**
+  String get seekEmergencyHelp;
+
+  /// No description provided for @seekEmergencyHelpDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Get emergency assistance immediately if the situation is life-threatening.'**
+  String get seekEmergencyHelpDescription;
+
+  /// No description provided for @giveFirstAid.
+  ///
+  /// In en, this message translates to:
+  /// **'Give First Aid'**
+  String get giveFirstAid;
+
+  /// No description provided for @giveFirstAidDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Provide first aid only if you know how and it is safe.'**
+  String get giveFirstAidDescription;
+
+  /// No description provided for @waitForResponders.
+  ///
+  /// In en, this message translates to:
+  /// **'Wait for Responders'**
+  String get waitForResponders;
+
+  /// No description provided for @waitForRespondersDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue monitoring the affected person until professional help arrives.'**
+  String get waitForRespondersDescription;
+
+  /// No description provided for @emergencyFirstAidGuides.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency First Aid Guides'**
+  String get emergencyFirstAidGuides;
+
+  /// No description provided for @cprNotBreathing.
+  ///
+  /// In en, this message translates to:
+  /// **'CPR — Not Breathing'**
+  String get cprNotBreathing;
+
+  /// No description provided for @severeBleeding.
+  ///
+  /// In en, this message translates to:
+  /// **'Severe Bleeding'**
+  String get severeBleeding;
+
+  /// No description provided for @choking.
+  ///
+  /// In en, this message translates to:
+  /// **'Choking'**
+  String get choking;
+
+  /// No description provided for @burns.
+  ///
+  /// In en, this message translates to:
+  /// **'Burns'**
+  String get burns;
+
+  /// No description provided for @fractureSpineInjury.
+  ///
+  /// In en, this message translates to:
+  /// **'Fracture / Spine Injury'**
+  String get fractureSpineInjury;
+
+  /// No description provided for @shockUnconsciousBreathing.
+  ///
+  /// In en, this message translates to:
+  /// **'Shock / Unconscious but Breathing'**
+  String get shockUnconsciousBreathing;
+
+  /// No description provided for @poisoning.
+  ///
+  /// In en, this message translates to:
+  /// **'Poisoning'**
+  String get poisoning;
+
+  /// No description provided for @electricShock.
+  ///
+  /// In en, this message translates to:
+  /// **'Electric Shock'**
+  String get electricShock;
+
+  /// No description provided for @heatStroke.
+  ///
+  /// In en, this message translates to:
+  /// **'Heat Stroke'**
+  String get heatStroke;
+
+  /// No description provided for @drowning.
+  ///
+  /// In en, this message translates to:
+  /// **'Drowning'**
+  String get drowning;
+
+  /// No description provided for @animalBite.
+  ///
+  /// In en, this message translates to:
+  /// **'Animal Bite'**
+  String get animalBite;
+
+  /// No description provided for @cprStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Check for a response — tap the shoulders and call out loudly.'**
+  String get cprStep1;
+
+  /// No description provided for @cprStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask someone to get emergency help and an AED.'**
+  String get cprStep2;
+
+  /// No description provided for @cprStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Place the heel of one hand in the centre of the chest, with the other hand on top.'**
+  String get cprStep3;
+
+  /// No description provided for @cprStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'Push hard and fast, 5–6 cm deep, at 100–120 compressions per minute.'**
+  String get cprStep4;
+
+  /// No description provided for @cprStep5.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not stop until the person moves or professional help arrives.'**
+  String get cprStep5;
+
+  /// No description provided for @cprWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Perform CPR only if the person is unresponsive and not breathing normally.'**
+  String get cprWarning;
+
+  /// No description provided for @bleedingStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply firm direct pressure to the wound immediately using a clean cloth, sterile dressing, or your hand if nothing else is available.'**
+  String get bleedingStep1;
+
+  /// No description provided for @bleedingStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep continuous pressure on the wound. Do not repeatedly remove the dressing to check the bleeding.'**
+  String get bleedingStep2;
+
+  /// No description provided for @bleedingStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'If blood soaks through, place another dressing on top and continue applying pressure.'**
+  String get bleedingStep3;
+
+  /// No description provided for @bleedingStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'Raise the injured arm or leg above heart level only if no fracture is suspected.'**
+  String get bleedingStep4;
+
+  /// No description provided for @bleedingStep5.
+  ///
+  /// In en, this message translates to:
+  /// **'Get emergency medical help if bleeding cannot be controlled or is life-threatening.'**
+  String get bleedingStep5;
+
+  /// No description provided for @bleedingWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not remove objects deeply embedded in a wound. Apply pressure around the object and wait for professional help.'**
+  String get bleedingWarning;
+
+  /// No description provided for @chokingStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask the person if they are choking. If they can cough or speak, encourage them to keep coughing.'**
+  String get chokingStep1;
+
+  /// No description provided for @chokingStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'If they cannot cough, speak, or breathe, give up to 5 firm back blows between the shoulder blades.'**
+  String get chokingStep2;
+
+  /// No description provided for @chokingStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'If the object does not come out, give up to 5 abdominal thrusts for adults and children over 1 year old.'**
+  String get chokingStep3;
+
+  /// No description provided for @chokingStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue alternating 5 back blows and 5 abdominal thrusts until the blockage is removed or the person becomes unresponsive.'**
+  String get chokingStep4;
+
+  /// No description provided for @chokingStep5.
+  ///
+  /// In en, this message translates to:
+  /// **'If the person becomes unresponsive, get emergency help and begin CPR if they are not breathing normally.'**
+  String get chokingStep5;
+
+  /// No description provided for @chokingWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not use abdominal thrusts on infants. For a pregnant person, use chest thrusts instead. Use age-appropriate first-aid techniques.'**
+  String get chokingWarning;
+
+  /// No description provided for @burnsStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Move the person away from the heat source only if it is safe to do so.'**
+  String get burnsStep1;
+
+  /// No description provided for @burnsStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Cool the burned area under clean, cool running water for 10–20 minutes.'**
+  String get burnsStep2;
+
+  /// No description provided for @burnsStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove rings, watches, and loose clothing before swelling begins, but do not remove anything stuck to the burn.'**
+  String get burnsStep3;
+
+  /// No description provided for @burnsStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'Loosely cover the burn with a sterile non-stick dressing or clean plastic wrap.'**
+  String get burnsStep4;
+
+  /// No description provided for @burnsStep5.
+  ///
+  /// In en, this message translates to:
+  /// **'Get urgent medical care for deep, chemical, electrical, large, or facial burns.'**
+  String get burnsStep5;
+
+  /// No description provided for @burnsWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not apply toothpaste, butter, oils, creams, or ice directly onto a burn.'**
+  String get burnsWarning;
+
+  /// No description provided for @fractureStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell the person to remain still and avoid moving the injured body part.'**
+  String get fractureStep1;
+
+  /// No description provided for @fractureStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Support the injured limb with towels, clothing, or a splint only if you are trained and it is safe.'**
+  String get fractureStep2;
+
+  /// No description provided for @fractureStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply a wrapped cold pack to reduce swelling. Never place ice directly on the skin.'**
+  String get fractureStep3;
+
+  /// No description provided for @fractureStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'If a spine injury is suspected, keep the head, neck, and back aligned. Do not move the person unless there is immediate danger.'**
+  String get fractureStep4;
+
+  /// No description provided for @fractureStep5.
+  ///
+  /// In en, this message translates to:
+  /// **'Get emergency medical help for severe pain, deformity, heavy bleeding, or a suspected spine injury.'**
+  String get fractureStep5;
+
+  /// No description provided for @fractureWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not attempt to straighten broken bones or move a person with a suspected spinal injury.'**
+  String get fractureWarning;
+
+  /// No description provided for @shockStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Lay the person flat on their back unless an injury or breathing difficulty prevents it.'**
+  String get shockStep1;
+
+  /// No description provided for @shockStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'If no injury is suspected, raise the feet about 15–30 cm unless a different position is more comfortable for breathing.'**
+  String get shockStep2;
+
+  /// No description provided for @shockStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Loosen tight clothing and keep the person warm with a blanket or jacket.'**
+  String get shockStep3;
+
+  /// No description provided for @shockStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'If the person is unresponsive but breathing normally, place them in the recovery position if it is safe to do so.'**
+  String get shockStep4;
+
+  /// No description provided for @shockStep5.
+  ///
+  /// In en, this message translates to:
+  /// **'Monitor breathing and responsiveness continuously until professional help arrives.'**
+  String get shockStep5;
+
+  /// No description provided for @shockWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not give food, drinks, or medication to an unconscious person.'**
+  String get shockWarning;
+
+  /// No description provided for @poisoningStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Move the person away from the poisonous substance only if it is safe.'**
+  String get poisoningStep1;
+
+  /// No description provided for @poisoningStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Identify the poison if possible and keep the container or label for medical personnel.'**
+  String get poisoningStep2;
+
+  /// No description provided for @poisoningStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'If poison is on the skin or in the eyes, rinse continuously with clean running water.'**
+  String get poisoningStep3;
+
+  /// No description provided for @poisoningStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'Get emergency help if the person is unconscious, has difficulty breathing, has seizures, or if several people are affected.'**
+  String get poisoningStep4;
+
+  /// No description provided for @poisoningStep5.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow instructions from medical professionals while waiting for help.'**
+  String get poisoningStep5;
+
+  /// No description provided for @poisoningWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not force the person to vomit or give food or drink unless a medical professional instructs you to do so.'**
+  String get poisoningWarning;
+
+  /// No description provided for @electricStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch off the electricity source before approaching the person, if it is safe to do so.'**
+  String get electricStep1;
+
+  /// No description provided for @electricStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not touch the person, exposed wires, or wet areas until you are certain the power is off.'**
+  String get electricStep2;
+
+  /// No description provided for @electricStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Get emergency medical help, even if the person appears well, because electrical injuries can cause hidden internal damage.'**
+  String get electricStep3;
+
+  /// No description provided for @electricStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'Once it is safe, check breathing and begin CPR only if the person is not breathing normally and you are trained to do so.'**
+  String get electricStep4;
+
+  /// No description provided for @electricStep5.
+  ///
+  /// In en, this message translates to:
+  /// **'After the power is off, loosely cover visible burns with a sterile dressing while waiting for help.'**
+  String get electricStep5;
+
+  /// No description provided for @electricWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Never touch a person who is still in contact with electricity.'**
+  String get electricWarning;
+
+  /// No description provided for @heatStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Move the person to a cool or shaded area immediately.'**
+  String get heatStep1;
+
+  /// No description provided for @heatStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove excess clothing to help the body cool down.'**
+  String get heatStep2;
+
+  /// No description provided for @heatStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Cool the body using wet cloths, misting, fanning, or a cool bath.'**
+  String get heatStep3;
+
+  /// No description provided for @heatStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'Get emergency medical help immediately, especially if the person is confused, collapses, or loses consciousness.'**
+  String get heatStep4;
+
+  /// No description provided for @heatStep5.
+  ///
+  /// In en, this message translates to:
+  /// **'Monitor breathing and responsiveness while continuing to cool the person.'**
+  String get heatStep5;
+
+  /// No description provided for @heatWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Heat stroke is a medical emergency. Do not give the person anything to drink.'**
+  String get heatWarning;
+
+  /// No description provided for @drowningStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Help the person out of the water only if it is safe. Use a reaching or floating object when possible.'**
+  String get drowningStep1;
+
+  /// No description provided for @drowningStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Get emergency help as soon as the person is safely out of the water.'**
+  String get drowningStep2;
+
+  /// No description provided for @drowningStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Check breathing. If the person is not breathing normally, begin CPR if you are trained to do so.'**
+  String get drowningStep3;
+
+  /// No description provided for @drowningStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'Use an AED if one is available and it is safe to use.'**
+  String get drowningStep4;
+
+  /// No description provided for @drowningStep5.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the person warm and continue monitoring breathing and responsiveness until professional help arrives.'**
+  String get drowningStep5;
+
+  /// No description provided for @drowningWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not try to remove water from the lungs. Focus on breathing, CPR when needed, and getting emergency help.'**
+  String get drowningWarning;
+
+  /// No description provided for @animalBiteStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Wash a minor bite wound thoroughly with soap and clean running water.'**
+  String get animalBiteStep1;
+
+  /// No description provided for @animalBiteStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Control bleeding by applying gentle direct pressure with a clean dressing.'**
+  String get animalBiteStep2;
+
+  /// No description provided for @animalBiteStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover the wound with a clean sterile bandage.'**
+  String get animalBiteStep3;
+
+  /// No description provided for @animalBiteStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'Get medical attention for deep wounds, bites from stray or wild animals, or possible rabies exposure.'**
+  String get animalBiteStep4;
+
+  /// No description provided for @animalBiteStep5.
+  ///
+  /// In en, this message translates to:
+  /// **'Monitor the wound for infection, such as increasing redness, swelling, pus, fever, or red streaks.'**
+  String get animalBiteStep5;
+
+  /// No description provided for @animalBiteWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Animal bites can cause serious infection. Seek medical assessment when in doubt.'**
+  String get animalBiteWarning;
+
+  /// No description provided for @validationModelLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'AI model is still loading. Please wait.'**
+  String get validationModelLoading;
+
+  /// No description provided for @validationUploadImageFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Please upload an image first.'**
+  String get validationUploadImageFirst;
+
+  /// No description provided for @validationImageRejectedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Image Rejected'**
+  String get validationImageRejectedTitle;
+
+  /// No description provided for @validationAiGeneratedRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected: AI-generated image detected.'**
+  String get validationAiGeneratedRejected;
+
+  /// No description provided for @modelClassification.
+  ///
+  /// In en, this message translates to:
+  /// **'Model classification'**
+  String get modelClassification;
+
+  /// No description provided for @classificationAi.
+  ///
+  /// In en, this message translates to:
+  /// **'AI'**
+  String get classificationAi;
+
+  /// No description provided for @aiConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'AI confidence'**
+  String get aiConfidence;
+
+  /// No description provided for @validationNonEmergencyRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected: This image does not appear to show an emergency incident.'**
+  String get validationNonEmergencyRejected;
+
+  /// No description provided for @classificationNonEmergency.
+  ///
+  /// In en, this message translates to:
+  /// **'Non-Emergency'**
+  String get classificationNonEmergency;
+
+  /// No description provided for @validationAcceptedWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted With Warning'**
+  String get validationAcceptedWarningTitle;
+
+  /// No description provided for @validationImageAcceptedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Image Accepted'**
+  String get validationImageAcceptedTitle;
+
+  /// No description provided for @validationAcceptedWarningMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted: Likely a real emergency image, but image quality may reduce visible detail.'**
+  String get validationAcceptedWarningMessage;
+
+  /// No description provided for @validationImageAcceptedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted: Likely a real emergency image detected.'**
+  String get validationImageAcceptedMessage;
+
+  /// No description provided for @classificationRealEmergency.
+  ///
+  /// In en, this message translates to:
+  /// **'Real Emergency'**
+  String get classificationRealEmergency;
+
+  /// No description provided for @classificationConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Classification confidence'**
+  String get classificationConfidence;
+
+  /// No description provided for @validationUnavailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Validation Unavailable'**
+  String get validationUnavailableTitle;
+
+  /// No description provided for @validationUnavailableMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to validate this image. Please try again.'**
+  String get validationUnavailableMessage;
+
+  /// No description provided for @uploadEmergencyImageFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Please upload an emergency image.'**
+  String get uploadEmergencyImageFirst;
+
+  /// No description provided for @validateImageFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Please validate the image first.'**
+  String get validateImageFirst;
+
+  /// No description provided for @imageRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Image rejected'**
+  String get imageRejected;
+
+  /// No description provided for @fireGuidanceMoveAway.
+  ///
+  /// In en, this message translates to:
+  /// **'Move everyone away from the fire immediately.'**
+  String get fireGuidanceMoveAway;
+
+  /// No description provided for @fireGuidanceStayLow.
+  ///
+  /// In en, this message translates to:
+  /// **'If smoke is present, stay low to avoid inhalation.'**
+  String get fireGuidanceStayLow;
+
+  /// No description provided for @fireGuidanceNoElevators.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not use elevators during evacuation.'**
+  String get fireGuidanceNoElevators;
+
+  /// No description provided for @fireGuidanceTurnOffUtilities.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off electricity or gas only if it is safe to do so.'**
+  String get fireGuidanceTurnOffUtilities;
+
+  /// No description provided for @fireGuidanceGetHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Get emergency help immediately.'**
+  String get fireGuidanceGetHelp;
+
+  /// No description provided for @fireGuidanceWaitSafe.
+  ///
+  /// In en, this message translates to:
+  /// **'Wait for firefighters in a safe location.'**
+  String get fireGuidanceWaitSafe;
+
+  /// No description provided for @fireGuidancePersonTrapped.
+  ///
+  /// In en, this message translates to:
+  /// **'Inform emergency responders that a person is trapped inside.'**
+  String get fireGuidancePersonTrapped;
+
+  /// No description provided for @fireGuidanceFuelLeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep everyone away from possible ignition sources.'**
+  String get fireGuidanceFuelLeak;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Profile'**
+  String get profileTitle;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency profile saved'**
+  String get profileSaved;
+
+  /// No description provided for @profileMedicalInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical information saved in your profile'**
+  String get profileMedicalInfoTitle;
+
+  /// No description provided for @profileMedicalInfoMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Available when you submit an emergency report.'**
+  String get profileMedicalInfoMessage;
+
+  /// No description provided for @profilePersonal.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal'**
+  String get profilePersonal;
+
+  /// No description provided for @profileFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get profileFullName;
+
+  /// No description provided for @profileAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get profileAge;
+
+  /// No description provided for @profileBloodGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood Group'**
+  String get profileBloodGroup;
+
+  /// No description provided for @profileUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get profileUnknown;
+
+  /// No description provided for @profileAllergies.
+  ///
+  /// In en, this message translates to:
+  /// **'Allergies'**
+  String get profileAllergies;
+
+  /// No description provided for @profileAllergiesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: Penicillin, Peanuts'**
+  String get profileAllergiesHint;
+
+  /// No description provided for @profileMedicalConditions.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical Conditions'**
+  String get profileMedicalConditions;
+
+  /// No description provided for @profileMedicalConditionsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: Asthma, Diabetes'**
+  String get profileMedicalConditionsHint;
+
+  /// No description provided for @profileCurrentMedication.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Medication'**
+  String get profileCurrentMedication;
+
+  /// No description provided for @profileMedicationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: Ventolin inhaler'**
+  String get profileMedicationHint;
+
+  /// No description provided for @profileNextOfKin.
+  ///
+  /// In en, this message translates to:
+  /// **'Next of Kin'**
+  String get profileNextOfKin;
+
+  /// No description provided for @profileKinNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Name (Relationship)'**
+  String get profileKinNameHint;
+
+  /// No description provided for @profilePhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get profilePhoneNumber;
+
+  /// No description provided for @profileSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Emergency Profile'**
+  String get profileSaveButton;
+
+  /// No description provided for @emergencyNowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Now'**
+  String get emergencyNowTitle;
+
+  /// No description provided for @emergencyNowSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a manual report and receive immediate safety guidance.'**
+  String get emergencyNowSubtitle;
+
+  /// No description provided for @startManualReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Manual Emergency Report'**
+  String get startManualReport;
+
+  /// No description provided for @emergencyNowNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'This app provides reporting support and guidance. It does not contact or dispatch emergency services.'**
+  String get emergencyNowNotice;
+
+  /// No description provided for @guestFinishGuidance.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish and Return'**
+  String get guestFinishGuidance;
+
+  /// No description provided for @guestFinishGuidanceMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You can start another report whenever needed.'**
+  String get guestFinishGuidanceMessage;
+
+  /// No description provided for @navHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navHome;
+
+  /// No description provided for @navDetect.
+  ///
+  /// In en, this message translates to:
+  /// **'Detect'**
+  String get navDetect;
+
+  /// No description provided for @navTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracking'**
+  String get navTracking;
+
+  /// No description provided for @navProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get navProfile;
+
+  /// No description provided for @navAssist.
+  ///
+  /// In en, this message translates to:
+  /// **'Assist'**
+  String get navAssist;
+
+  /// No description provided for @emergencyAnalysisResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Analysis Result'**
+  String get emergencyAnalysisResult;
+
+  /// No description provided for @emergencyTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Tracking'**
+  String get emergencyTracking;
+
+  /// No description provided for @trackingSosSent.
+  ///
+  /// In en, this message translates to:
+  /// **'SOS Sent'**
+  String get trackingSosSent;
+
+  /// No description provided for @trackingPendingConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending confirmation'**
+  String get trackingPendingConfirmation;
+
+  /// No description provided for @trackingEmergencyId.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency ID'**
+  String get trackingEmergencyId;
+
+  /// No description provided for @trackingEmergencyType.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Type'**
+  String get trackingEmergencyType;
+
+  /// No description provided for @trackingSeverity.
+  ///
+  /// In en, this message translates to:
+  /// **'Severity'**
+  String get trackingSeverity;
+
+  /// No description provided for @trackingAiConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Confidence'**
+  String get trackingAiConfidence;
+
+  /// No description provided for @trackingRecommendedResponders.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended Responders'**
+  String get trackingRecommendedResponders;
+
+  /// No description provided for @trackingRealGpsLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Real GPS Location'**
+  String get trackingRealGpsLocation;
+
+  /// No description provided for @trackingMalaysia999Flow.
+  ///
+  /// In en, this message translates to:
+  /// **'Malaysia 999 Emergency Flow'**
+  String get trackingMalaysia999Flow;
+
+  /// No description provided for @trackingConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get trackingConfirmed;
+
+  /// No description provided for @trackingDispatched.
+  ///
+  /// In en, this message translates to:
+  /// **'Dispatched'**
+  String get trackingDispatched;
+
+  /// No description provided for @trackingArriving.
+  ///
+  /// In en, this message translates to:
+  /// **'Arriving'**
+  String get trackingArriving;
+
+  /// No description provided for @trackingCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get trackingCompleted;
+
+  /// No description provided for @trackingCall999.
+  ///
+  /// In en, this message translates to:
+  /// **'Call 999'**
+  String get trackingCall999;
+
+  /// No description provided for @trackingAssistanceArrived.
+  ///
+  /// In en, this message translates to:
+  /// **'Assistance Arrived'**
+  String get trackingAssistanceArrived;
+
+  /// No description provided for @trackingCancelFalseAlarm.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel False Alarm'**
+  String get trackingCancelFalseAlarm;
+
+  /// No description provided for @trackingShareLiveLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Live Location'**
+  String get trackingShareLiveLocation;
+
+  /// No description provided for @trackingSending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending...'**
+  String get trackingSending;
+
+  /// No description provided for @trackingSendUpdateToContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Update to Emergency Contacts'**
+  String get trackingSendUpdateToContacts;
+
+  /// No description provided for @trackingBackToHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Home'**
+  String get trackingBackToHome;
+
+  /// No description provided for @trackingNoActiveEmergency.
+  ///
+  /// In en, this message translates to:
+  /// **'No active emergency'**
+  String get trackingNoActiveEmergency;
+
+  /// No description provided for @trackingNoActiveEmergencyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency tracking will appear after an emergency report is created.'**
+  String get trackingNoActiveEmergencyMessage;
+
+  /// No description provided for @trackingLocationPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission denied'**
+  String get trackingLocationPermissionDenied;
+
+  /// No description provided for @trackingLocationUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Location unavailable'**
+  String get trackingLocationUnavailable;
+
+  /// No description provided for @trackingUnableOpenDialer.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to open phone dialer.'**
+  String get trackingUnableOpenDialer;
+
+  /// No description provided for @trackingUnableOpenMaps.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to open Google Maps.'**
+  String get trackingUnableOpenMaps;
+
+  /// No description provided for @trackingLoginFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Please login first.'**
+  String get trackingLoginFirst;
+
+  /// No description provided for @trackingNoContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'No emergency contacts found.'**
+  String get trackingNoContacts;
+
+  /// No description provided for @trackingAlertSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency alert sent to {count} contact(s).'**
+  String trackingAlertSent(Object count);
+
+  /// No description provided for @trackingInvalidContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact does not have a valid App User ID.'**
+  String get trackingInvalidContact;
+
+  /// No description provided for @trackingUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send update: {error}'**
+  String trackingUpdateFailed(Object error);
+
+  /// No description provided for @trackingEmergencyUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update emergency: {error}'**
+  String trackingEmergencyUpdateFailed(Object error);
+
+  /// No description provided for @trackingPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get trackingPending;
+
+  /// No description provided for @trackingDetailsConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'999 Details Confirmed'**
+  String get trackingDetailsConfirmed;
+
+  /// No description provided for @trackingResponderDispatched.
+  ///
+  /// In en, this message translates to:
+  /// **'Responder Dispatched'**
+  String get trackingResponderDispatched;
+
+  /// No description provided for @trackingResponderArriving.
+  ///
+  /// In en, this message translates to:
+  /// **'Responder Arriving'**
+  String get trackingResponderArriving;
+
+  /// No description provided for @trackingAssistanceArrivedStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Assistance Arrived'**
+  String get trackingAssistanceArrivedStatus;
+
+  /// No description provided for @trackingFalseAlarmCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'False Alarm Cancelled'**
+  String get trackingFalseAlarmCancelled;
+
+  /// No description provided for @trackingActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracking Active'**
+  String get trackingActive;
+
+  /// No description provided for @trackingNoLocationShared.
+  ///
+  /// In en, this message translates to:
+  /// **'Location not shared'**
+  String get trackingNoLocationShared;
+
+  /// No description provided for @trackingEmergency.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency'**
+  String get trackingEmergency;
+
+  /// No description provided for @trackingHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get trackingHigh;
+
+  /// No description provided for @trackingUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get trackingUnknown;
+
+  /// No description provided for @analysisLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyzing image with Gemini AI...'**
+  String get analysisLoading;
+
+  /// No description provided for @analysisEvidenceDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Evidence Detected'**
+  String get analysisEvidenceDetected;
+
+  /// No description provided for @analysisRecommendedResponders.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended Responders'**
+  String get analysisRecommendedResponders;
+
+  /// No description provided for @analysisSuggestedEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested Equipment'**
+  String get analysisSuggestedEquipment;
+
+  /// No description provided for @analysisSaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get analysisSaving;
+
+  /// No description provided for @analysisConfirmGetHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm & Get Help'**
+  String get analysisConfirmGetHelp;
+
+  /// No description provided for @analysisNoEmergencyIdentified.
+  ///
+  /// In en, this message translates to:
+  /// **'No Emergency Identified'**
+  String get analysisNoEmergencyIdentified;
+
+  /// No description provided for @analysisReanalyze.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-analyze'**
+  String get analysisReanalyze;
+
+  /// No description provided for @analysisFalseAlarm.
+  ///
+  /// In en, this message translates to:
+  /// **'False Alarm'**
+  String get analysisFalseAlarm;
+
+  /// No description provided for @analysisEmergencyDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Detected'**
+  String get analysisEmergencyDetected;
+
+  /// No description provided for @analysisType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get analysisType;
+
+  /// No description provided for @analysisSeverity.
+  ///
+  /// In en, this message translates to:
+  /// **'Severity'**
+  String get analysisSeverity;
+
+  /// No description provided for @analysisConfidenceLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confidence Level'**
+  String get analysisConfidenceLevel;
+
+  /// No description provided for @analysisIncidentSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Incident Summary'**
+  String get analysisIncidentSummary;
+
+  /// No description provided for @analysisNoSpecificDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'No specific details detected'**
+  String get analysisNoSpecificDetails;
+
+  /// No description provided for @analysisNoSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'No summary generated.'**
+  String get analysisNoSummary;
+
+  /// No description provided for @analysisFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'AI analysis failed'**
+  String get analysisFailed;
+
+  /// No description provided for @analysisTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get analysisTryAgain;
+
+  /// No description provided for @cprBeatCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Beat Count'**
+  String get cprBeatCount;
+
+  /// No description provided for @manualTrackingStarting.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting...'**
+  String get manualTrackingStarting;
+
+  /// No description provided for @manualTrackingInternetRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Internet connection is required to submit the report and view Emergency Tracking. Emergency guidance remains available offline.'**
+  String get manualTrackingInternetRequired;
+
+  /// No description provided for @manualTrackingUnableToStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to start Emergency Tracking. Check your internet connection and try again.'**
+  String get manualTrackingUnableToStart;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
